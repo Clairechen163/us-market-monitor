@@ -1,0 +1,28 @@
+US MARKET MONITOR
+Session: 2026-10-16   Data source: yahoo
+Signals describe price/volume alignment. They are not buy/sell recommendations.
+
+ALAB   score  23.7  [WEAK]  (coverage 100%)
+   close 285.82  1d -5.4%  5d -16.5%  20d -5.7%  5d vs SPY -14.5%
+   RVOL20 0.95  RSI14 37.4  ATR14 +8.4%  vs prior 20d high -28.9%
+   components: trend 17.0/25  volume 2.2/25  breakout 0.0/20  momentum 2.6/15  relative_strength 1.8/15
+
+TSLA   score  22.7  [WEAK]  (coverage 100%)
+   close 354.72  1d -2.1%  5d -7.3%  20d -2.6%  5d vs SPY -5.3%
+   RVOL20 1.82  RSI14 42.2  ATR14 +3.3%  vs prior 20d high -8.7%
+   components: trend 8.0/25  volume 5.6/25  breakout 1.5/20  momentum 4.3/15  relative_strength 3.2/15
+
+SPCX   score  19.2  [WEAK]  (coverage 91%)
+   close 146.03  1d -1.7%  5d -10.2%  20d -4.4%  5d vs SPY -8.2%
+   RVOL20 0.93  RSI14 43.9  ATR14 +4.9%  vs prior 20d high -17.2%
+   components: trend 8.0/25  volume 2.2/25  breakout 0.0/20  momentum 4.9/15  relative_strength 2.4/15
+
+KLAC   score   6.0  [WEAK]  (coverage 100%)
+   close 165.74  1d -5.0%  5d -15.3%  20d -6.4%  5d vs SPY -13.3%
+   RVOL20 1.39  RSI14 31.1  ATR14 +4.9%  vs prior 20d high -20.6%
+   components: trend 0.0/25  volume 4.1/25  breakout 0.0/20  momentum 0.4/15  relative_strength 1.5/15
+
+VRT    score   3.7  [WEAK]  (coverage 100%)
+   close 206.42  1d -3.9%  5d -15.0%  20d -17.2%  5d vs SPY -13.0%
+   RVOL20 1.30  RSI14 27.3  ATR14 +5.6%  vs prior 20d high -20.0%
+   components: trend 0.0/25  volume 3.7/25  breakout 0.0/20  momentum 0.0/15  relative_strength 0.0/15
