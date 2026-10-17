@@ -1,0 +1,47 @@
+name: Daily Market Monitor
+
+on:
+  schedule:
+    # 21:30 UTC = 17:30 ET in summer, 16:30 ET in winter: always after the 16:00 close.
+    - cron: "30 21 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: market-data-commit
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run market monitor
+        run: python market_monitor.py
+
+      - name: Update badges and dashboard
+        run: python scripts/update_dashboard.py
+
+      - name: Commit results
+        run: |
+          git config user.name  "Clairechen163"
+          git config user.email "Clairechen163@users.noreply.github.com"
+          git add reports/ docs/dashboard.md docs/badges/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Market signals for $(date -u +%Y-%m-%d)"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push
+          fi

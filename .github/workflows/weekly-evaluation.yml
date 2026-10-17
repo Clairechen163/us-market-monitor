@@ -1,0 +1,43 @@
+name: Weekly Signal Evaluation
+
+on:
+  schedule:
+    - cron: "0 14 * * 6"   # Saturdays 14:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: market-data-commit
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Evaluate signal on full history
+        run: python scripts/evaluate_signal.py --download
+
+      - name: Commit results
+        run: |
+          git config user.name  "Clairechen163"
+          git config user.email "Clairechen163@users.noreply.github.com"
+          git add README.md docs/evaluation.md docs/figures/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Signal evaluation for $(date -u +%Y-%m-%d)"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push
+          fi
