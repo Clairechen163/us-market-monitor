@@ -6,14 +6,14 @@ performance relative to the S&P 500 over the next 5 trading days?**
 
 ## Summary
 
-*Last evaluated 2026-10-17 on 4,375 ticker-days (2021-11-15 to 2026-10-09), 5-day horizon, data: yahoo.*
+*Last evaluated 2026-10-24 on 4,385 ticker-days (2021-11-22 to 2026-10-16), 5-day horizon, data: yahoo.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
-| Rank IC: score vs forward return over SPY | +0.019 | [-0.044, +0.079] |
-| Rank IC, non-overlapping windows only | -0.022 | |
-| Mean return gap: POSITIVE-or-better minus WEAK | +0.34% | [-0.54%, +1.41%] |
-| Out-of-sample AUC: hand weights vs learned weights | 0.500 vs 0.473 | |
+| Rank IC: score vs forward return over SPY | +0.025 | [-0.041, +0.079] |
+| Rank IC, non-overlapping windows only | -0.014 | |
+| Mean return gap: POSITIVE-or-better minus WEAK | +0.43% | [-0.58%, +1.34%] |
+| Out-of-sample AUC: hand weights vs learned weights | 0.502 vs 0.470 | |
 
 The 95% interval for the IC includes zero, so the data do not support a claim that the score predicts forward relative returns. That is a legitimate finding: the score is useful as a description of today's move, not as a forecast.
 
@@ -22,7 +22,7 @@ The 95% interval for the IC includes zero, so the data do not support a claim th
 ## Setup
 
 - **Universe:** ALAB, KLAC, SPCX, TSLA, VRT; benchmark SPY.
-- **Sample:** 1,230 trading days, 4,375 ticker-days with a full score.
+- **Sample:** 1,230 trading days, 4,385 ticker-days with a full score.
   Rows labelled *INSUFFICIENT DATA* (too little history, e.g. right after an IPO) are excluded.
 - **Target:** 5-day forward return minus SPY's forward return over the same days.
 - **No look-ahead:** every indicator at day *t* uses data through the close of *t* only;
@@ -38,9 +38,9 @@ The 95% interval for the IC includes zero, so the data do not support a claim th
 | label | n | mean | ci_lo | ci_hi | median | hit_rate |
 |---|---:|---:|---:|---:|---:|---:|
 | STRONG PRICE/VOLUME | 378 | +0.61% | -0.14% | +2.00% | +0.28% | 50.8% |
-| POSITIVE | 908 | +0.82% | +0.33% | +1.59% | +0.34% | 53.4% |
-| WATCH | 905 | +1.39% | +0.52% | +2.59% | +0.93% | 56.0% |
-| WEAK | 2,184 | +0.41% | -0.39% | +1.24% | +0.30% | 51.9% |
+| POSITIVE | 905 | +0.83% | +0.33% | +1.57% | +0.34% | 53.6% |
+| WATCH | 890 | +1.44% | +0.47% | +2.57% | +1.03% | 56.3% |
+| WEAK | 2,212 | +0.33% | -0.35% | +1.28% | +0.25% | 51.6% |
 
 ## Stability
 
@@ -50,22 +50,22 @@ The full-sample IC can hide periods where the relationship flips sign.
 
 | year | n | ic |
 |---|---:|---:|
-| 2021 | 99 | +0.014 |
-| 2022 | 753 | -0.009 |
+| 2021 | 84 | +0.052 |
+| 2022 | 753 | -0.006 |
 | 2023 | 750 | -0.074 |
 | 2024 | 934 | +0.067 |
 | 2025 | 1,000 | -0.008 |
-| 2026 | 839 | -0.003 |
+| 2026 | 864 | +0.016 |
 
 By ticker:
 
 | ticker | n | ic | first_date |
 |---|---:|---:|---:|
-| ALAB | 622 | +0.105 | 2024-04-18 |
-| KLAC | 1,230 | -0.133 | 2021-11-15 |
-| SPCX | 63 | -0.040 | 2026-07-14 |
-| TSLA | 1,230 | +0.031 | 2021-11-15 |
-| VRT | 1,230 | +0.026 | 2021-11-15 |
+| ALAB | 627 | +0.106 | 2024-04-18 |
+| KLAC | 1,230 | -0.122 | 2021-11-22 |
+| SPCX | 68 | -0.025 | 2026-07-14 |
+| TSLA | 1,230 | +0.033 | 2021-11-22 |
+| VRT | 1,230 | +0.036 | 2021-11-22 |
 
 ## Baselines and ablation
 
@@ -76,19 +76,19 @@ re-scores the full history with one component removed and the rest re-weighted t
 
 | signal | ic |
 |---|---:|
-| Composite score (this model) | +0.019 |
-| 20-day return only (momentum) | +0.053 |
+| Composite score (this model) | +0.025 |
+| 20-day return only (momentum) | +0.052 |
 | 20-day return vs SPY only | +0.060 |
-| RVOL20 only | +0.001 |
-| Shuffled score (null) | +0.004 |
+| RVOL20 only | -0.002 |
+| Shuffled score (null) | +0.029 |
 
 | removed | ic | change |
 |---|---:|---:|
-| trend | +0.016 | -0.003 |
-| volume | +0.021 | +0.002 |
-| breakout | +0.016 | -0.003 |
-| momentum | +0.022 | +0.004 |
-| relative_strength | +0.015 | -0.003 |
+| trend | +0.022 | -0.003 |
+| volume | +0.027 | +0.002 |
+| breakout | +0.022 | -0.003 |
+| momentum | +0.028 | +0.003 |
+| relative_strength | +0.022 | -0.003 |
 
 A negative *change* means removing the component hurts, i.e. it was contributing.
 
@@ -99,12 +99,12 @@ differently, a logistic regression on the five component scores is refit every q
 expanding window and used only to score later dates. A 5-day gap separates
 each training cut-off from the test period so overlapping targets cannot leak.
 
-Out-of-sample period: 2022-11-15 onward, 3,619 ticker-days.
+Out-of-sample period: 2022-11-22 onward, 3,629 ticker-days.
 
 | Model | AUC (target: beats SPY) | Spearman IC |
 |---|---:|---:|
-| Hand-weighted score | 0.500 | +0.014 |
-| Walk-forward logistic regression | 0.473 | -0.050 |
+| Hand-weighted score | 0.502 | +0.019 |
+| Walk-forward logistic regression | 0.470 | -0.057 |
 
 Learning the weights from data does not beat the hand-chosen weights out of sample. With this little data, the simpler fixed-weight model is preferable.
 

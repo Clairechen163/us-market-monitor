@@ -35,14 +35,14 @@ The project has two halves:
 ## Results
 
 <!-- EVAL:START -->
-*Last evaluated 2026-10-17 on 4,375 ticker-days (2021-11-15 to 2026-10-09), 5-day horizon, data: yahoo.*
+*Last evaluated 2026-10-24 on 4,385 ticker-days (2021-11-22 to 2026-10-16), 5-day horizon, data: yahoo.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
-| Rank IC: score vs forward return over SPY | +0.019 | [-0.044, +0.079] |
-| Rank IC, non-overlapping windows only | -0.022 | |
-| Mean return gap: POSITIVE-or-better minus WEAK | +0.34% | [-0.54%, +1.41%] |
-| Out-of-sample AUC: hand weights vs learned weights | 0.500 vs 0.473 | |
+| Rank IC: score vs forward return over SPY | +0.025 | [-0.041, +0.079] |
+| Rank IC, non-overlapping windows only | -0.014 | |
+| Mean return gap: POSITIVE-or-better minus WEAK | +0.43% | [-0.58%, +1.34%] |
+| Out-of-sample AUC: hand weights vs learned weights | 0.502 vs 0.470 | |
 
 The 95% interval for the IC includes zero, so the data do not support a claim that the score predicts forward relative returns. That is a legitimate finding: the score is useful as a description of today's move, not as a forecast.
 
