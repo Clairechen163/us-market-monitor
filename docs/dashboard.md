@@ -1,6 +1,6 @@
 # Dashboard
 
-**Session:** 2026-10-23 · **Source file:** `reports/market_report_20261023.csv` · regenerated automatically after each U.S. close.
+**Session:** 2026-10-26 · **Source file:** `reports/market_report_20261026.csv` · regenerated automatically after each U.S. close.
 
 > Signals describe how well today's price, volume and trend line up. They are not
 > buy/sell recommendations and not evidence of institutional activity. Whether they
@@ -10,11 +10,11 @@
 
 | Ticker | Badge | Score | Close | 1d | 5d vs SPY | RVOL20 | RSI14 | vs 20d high | ATR % |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| **TSLA** | ![TSLA](badges/TSLA.svg) | 46.7 | 372.22 | -0.6% | +5.4% | 0.94 | 51.5 | -4.3% | +3.4% |
-| **SPCX** | ![SPCX](badges/SPCX.svg) | 38.4 | 147.49 | +1.9% | +1.4% | 1.11 | 46.7 | -16.4% | +5.5% |
-| **VRT** | ![VRT](badges/VRT.svg) | 4.0 | 194.32 | -0.6% | -5.4% | 1.37 | 27.6 | -24.7% | +6.2% |
-| **KLAC** | ![KLAC](badges/KLAC.svg) | 2.7 | 145.61 | -1.5% | -11.7% | 1.04 | 23.3 | -30.2% | +5.5% |
-| **ALAB** | ![ALAB](badges/ALAB.svg) | 1.2 | 257.16 | -0.3% | -9.6% | 0.61 | 32.0 | -36.0% | +8.9% |
+| **TSLA** | ![TSLA](badges/TSLA.svg) | 86.1 | 391.62 | +5.2% | +6.5% | 1.46 | 60.1 | +0.7% | +3.4% |
+| **SPCX** | ![SPCX](badges/SPCX.svg) | 26.8 | 146.90 | -0.4% | -0.6% | 1.01 | 46.3 | -16.7% | +5.4% |
+| **VRT** | ![VRT](badges/VRT.svg) | 11.9 | 199.78 | +2.8% | -2.9% | 0.99 | 32.2 | -22.6% | +5.9% |
+| **KLAC** | ![KLAC](badges/KLAC.svg) | 10.8 | 149.21 | +2.5% | -10.2% | 1.05 | 27.6 | -28.5% | +5.3% |
+| **ALAB** | ![ALAB](badges/ALAB.svg) | 5.9 | 259.51 | +0.9% | -9.3% | 0.74 | 33.0 | -35.4% | +8.7% |
 
 ## Score breakdown
 
@@ -25,11 +25,11 @@ of the 100 points that could be computed. Below 60% the label is
 
 | Ticker | Trend (/25) | Volume (/25) | Breakout (/20) | Momentum (/15) | Relative Strength (/15) | Coverage |
 |---|---:|---:|---:|---:|---:|---:|
-| TSLA | 16.0 | 2.2 | 7.2 | 10.1 | 11.2 | 100% |
-| SPCX | 8.0 | 11.8 | 0.0 | 6.6 | 8.7 | 91% |
-| VRT | 0.0 | 4.0 | 0.0 | 0.0 | 0.0 | 100% |
-| KLAC | 0.0 | 2.7 | 0.0 | 0.0 | 0.0 | 100% |
-| ALAB | 0.0 | 0.5 | 0.0 | 0.7 | 0.0 | 100% |
+| TSLA | 25.0 | 17.3 | 15.4 | 13.5 | 14.8 | 100% |
+| SPCX | 8.0 | 2.5 | 0.0 | 6.2 | 7.6 | 91% |
+| VRT | 0.0 | 9.9 | 0.0 | 0.8 | 1.3 | 100% |
+| KLAC | 0.0 | 10.8 | 0.0 | 0.0 | 0.0 | 100% |
+| ALAB | 0.0 | 4.9 | 0.0 | 1.1 | 0.0 | 100% |
 
 ## Label scale
 
