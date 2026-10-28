@@ -2,27 +2,22 @@ US MARKET MONITOR
 Session: 2026-10-26   Data source: yahoo
 Signals describe price/volume alignment. They are not buy/sell recommendations.
 
-TSLA   score  86.1  [STRONG PRICE/VOLUME]  (coverage 100%)
-   close 391.62  1d +5.2%  5d +6.4%  20d +9.6%  5d vs SPY +6.5%
-   RVOL20 1.46  RSI14 60.1  ATR14 +3.4%  vs prior 20d high +0.7%
-   components: trend 25.0/25  volume 17.3/25  breakout 15.4/20  momentum 13.5/15  relative_strength 14.8/15
-
 SPCX   score  26.8  [WEAK]  (coverage 91%)
    close 146.90  1d -0.4%  5d -0.7%  20d +1.0%  5d vs SPY -0.6%
-   RVOL20 1.01  RSI14 46.3  ATR14 +5.4%  vs prior 20d high -16.7%
-   components: trend 8.0/25  volume 2.5/25  breakout 0.0/20  momentum 6.2/15  relative_strength 7.6/15
+   RVOL20 1.02  RSI14 46.3  ATR14 +5.4%  vs prior 20d high -16.7%
+   components: trend 8.0/25  volume 2.6/25  breakout 0.0/20  momentum 6.2/15  relative_strength 7.6/15
 
-VRT    score  11.9  [WEAK]  (coverage 100%)
+VRT    score  12.0  [WEAK]  (coverage 100%)
    close 199.78  1d +2.8%  5d -3.1%  20d -18.1%  5d vs SPY -2.9%
-   RVOL20 0.99  RSI14 32.2  ATR14 +5.9%  vs prior 20d high -22.6%
+   RVOL20 1.00  RSI14 32.2  ATR14 +5.9%  vs prior 20d high -22.6%
    components: trend 0.0/25  volume 9.9/25  breakout 0.0/20  momentum 0.8/15  relative_strength 1.3/15
 
-KLAC   score  10.8  [WEAK]  (coverage 100%)
+KLAC   score  10.9  [WEAK]  (coverage 100%)
    close 149.21  1d +2.5%  5d -10.3%  20d -21.1%  5d vs SPY -10.2%
-   RVOL20 1.05  RSI14 27.6  ATR14 +5.3%  vs prior 20d high -28.5%
-   components: trend 0.0/25  volume 10.8/25  breakout 0.0/20  momentum 0.0/15  relative_strength 0.0/15
+   RVOL20 1.06  RSI14 27.6  ATR14 +5.3%  vs prior 20d high -28.5%
+   components: trend 0.0/25  volume 10.9/25  breakout 0.0/20  momentum 0.0/15  relative_strength 0.0/15
 
-ALAB   score   5.9  [WEAK]  (coverage 100%)
+ALAB   score   6.0  [WEAK]  (coverage 100%)
    close 259.51  1d +0.9%  5d -9.4%  20d -26.1%  5d vs SPY -9.3%
-   RVOL20 0.74  RSI14 33.0  ATR14 +8.7%  vs prior 20d high -35.4%
+   RVOL20 0.75  RSI14 33.0  ATR14 +8.7%  vs prior 20d high -35.4%
    components: trend 0.0/25  volume 4.9/25  breakout 0.0/20  momentum 1.1/15  relative_strength 0.0/15
