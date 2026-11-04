@@ -14,6 +14,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from .config import LISTING_DATES
+
 OHLCV = ["Open", "High", "Low", "Close", "Volume"]
 
 
@@ -23,6 +25,17 @@ def _normalise(frame: pd.DataFrame) -> pd.DataFrame:
     frame = frame[~frame.index.duplicated(keep="last")].sort_index()
     frame = frame.dropna(subset=["Close"])
     return frame.astype(float)
+
+
+def trim_to_listing(data: dict[str, pd.DataFrame], listing_dates: dict[str, str]) -> dict[str, pd.DataFrame]:
+    """Drop bars dated before a ticker's known first U.S. trading day."""
+    out = {}
+    for t, frame in data.items():
+        start = listing_dates.get(t)
+        frame = frame[frame.index >= pd.Timestamp(start)] if start else frame
+        if not frame.empty:
+            out[t] = frame
+    return out
 
 
 def load_yahoo(tickers: list[str], period: str = "5y") -> dict[str, pd.DataFrame]:
@@ -47,7 +60,7 @@ def load_yahoo(tickers: list[str], period: str = "5y") -> dict[str, pd.DataFrame
         frame = _normalise(frame)
         if not frame.empty:
             out[t] = frame
-    return out
+    return trim_to_listing(out, LISTING_DATES)
 
 
 def load_synthetic(
@@ -107,4 +120,4 @@ def load_cache(tickers: list[str], cache_dir: Path) -> dict[str, pd.DataFrame]:
         path = cache_dir / f"{t}.csv"
         if path.exists():
             out[t] = _normalise(pd.read_csv(path, index_col=0, parse_dates=True))
-    return out
+    return trim_to_listing(out, LISTING_DATES)

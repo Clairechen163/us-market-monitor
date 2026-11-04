@@ -6,6 +6,7 @@ from pathlib import Path
 import pandas as pd
 
 import market_monitor
+from monitor import config
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -23,7 +24,7 @@ def test_monitor_and_dashboard(tmp_path):
     csvs = list(reports.glob("market_report_*_synthetic.csv"))
     assert len(csvs) == 1 and list(reports.glob("*.txt"))
     df = pd.read_csv(csvs[0], index_col="ticker")
-    assert sorted(df.index) == ["ALAB", "KLAC", "SPCX", "TSLA", "VRT"]
+    assert sorted(df.index) == sorted(config.TICKERS)
 
     dash = _load_script("update_dashboard")
     docs = tmp_path / "docs"
@@ -42,3 +43,15 @@ def test_synthetic_reports_never_feed_dashboard(tmp_path):
     except SystemExit:
         return
     raise AssertionError("synthetic CSV was picked up")
+
+
+def test_dashboard_removes_badges_for_dropped_tickers(tmp_path):
+    reports = tmp_path / "reports"
+    market_monitor.main(["--source", "synthetic", "--outdir", str(reports)])
+    csv = next(reports.glob("*.csv"))
+    badges = tmp_path / "docs" / "badges"
+    badges.mkdir(parents=True)
+    (badges / "KLAC.svg").write_text("<svg/>")  # ticker no longer in the universe
+    _load_script("update_dashboard").main(["--csv", str(csv), "--outdir", str(tmp_path / "docs")])
+    assert not (badges / "KLAC.svg").exists()
+    assert sorted(p.stem for p in badges.glob("*.svg")) == sorted(config.TICKERS)

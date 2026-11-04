@@ -25,13 +25,13 @@ def test_spearman_ic_perfect_and_null():
 
 
 def test_bootstrap_interval_contains_estimate(synthetic):
-    frame = evaluation_frame(synthetic, ["KLAC", "TSLA"], "SPY", 5)
+    frame = evaluation_frame(synthetic, ["NVDA", "TSLA"], "SPY", 5)
     est, lo, hi = block_bootstrap(frame, lambda f: f["target"].mean(), reps=200)
     assert lo <= est <= hi
 
 
 def test_walk_forward_is_out_of_sample(synthetic):
-    frame = evaluation_frame(synthetic, ["KLAC", "TSLA"], "SPY", 5)
+    frame = evaluation_frame(synthetic, ["NVDA", "TSLA"], "SPY", 5)
     prob = walk_forward_logit(frame, min_train_days=252, refit_every=63, horizon=5)
     dates = np.array(sorted(frame.index.get_level_values("date").unique()))
     first_pred = prob.dropna().index.get_level_values("date").min()
@@ -40,7 +40,7 @@ def test_walk_forward_is_out_of_sample(synthetic):
 
 
 def test_evaluate_end_to_end(synthetic):
-    res = evaluate(synthetic, ["SPCX", "KLAC", "ALAB", "TSLA", "VRT"], "SPY",
+    res = evaluate(synthetic, ["SPCX", "NVDA", "ALAB", "TSLA", "ETN"], "SPY",
                    horizon=5, bootstrap_reps=100)
     assert res.n_obs > 1000
     assert -1 <= res.ic[0] <= 1

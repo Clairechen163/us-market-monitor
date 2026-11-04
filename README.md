@@ -5,9 +5,13 @@
 [![Daily Market Monitor](https://github.com/Clairechen163/us-market-monitor/actions/workflows/daily-market-monitor.yml/badge.svg)](https://github.com/Clairechen163/us-market-monitor/actions/workflows/daily-market-monitor.yml)
 [![Tests](https://github.com/Clairechen163/us-market-monitor/actions/workflows/tests.yml/badge.svg)](https://github.com/Clairechen163/us-market-monitor/actions/workflows/tests.yml)
 
-| KLAC | ALAB | SPCX | TSLA | VRT |
+| ALAB | AMD | NVDA | MRVL | GOOG |
 |---|---|---|---|---|
-| ![KLAC](docs/badges/KLAC.svg) | ![ALAB](docs/badges/ALAB.svg) | ![SPCX](docs/badges/SPCX.svg) | ![TSLA](docs/badges/TSLA.svg) | ![VRT](docs/badges/VRT.svg) |
+| ![ALAB](docs/badges/ALAB.svg) | ![AMD](docs/badges/AMD.svg) | ![NVDA](docs/badges/NVDA.svg) | ![MRVL](docs/badges/MRVL.svg) | ![GOOG](docs/badges/GOOG.svg) |
+
+| FSLR | SKHY | ETN | TSLA | SPCX |
+|---|---|---|---|---|
+| ![FSLR](docs/badges/FSLR.svg) | ![SKHY](docs/badges/SKHY.svg) | ![ETN](docs/badges/ETN.svg) | ![TSLA](docs/badges/TSLA.svg) | ![SPCX](docs/badges/SPCX.svg) |
 
 **[Today's dashboard →](docs/dashboard.md)** · **[Full evaluation →](docs/evaluation.md)**
 
@@ -27,7 +31,7 @@ The project has two halves:
 1. **Monitor (descriptive).** Every weekday after the U.S. close, a GitHub Action downloads
    prices, computes indicators, scores each stock from 0 to 100 and publishes badges and a
    dashboard. Any U.S.-listed stock or ETF works; edit `TICKERS` in `monitor/config.py`
-   (default: KLAC, ALAB, SPCX, TSLA, VRT).
+   (default: ALAB, AMD, NVDA, MRVL, GOOG, FSLR, SKHY, ETN, TSLA, SPCX).
 2. **Evaluation (inferential).** Every week, the same scoring rules are replayed over five years
    of history and tested against forward returns with time-series-aware statistics,
    baselines, ablations and an out-of-sample model.
@@ -35,18 +39,8 @@ The project has two halves:
 ## Results
 
 <!-- EVAL:START -->
-*Last evaluated 2026-10-31 on 4,395 ticker-days (2021-11-30 to 2026-10-23), 5-day horizon, data: yahoo.*
-
-| Metric | Estimate | 95% CI |
-|---|---:|---:|
-| Rank IC: score vs forward return over SPY | +0.024 | [-0.040, +0.080] |
-| Rank IC, non-overlapping windows only | -0.007 | |
-| Mean return gap: POSITIVE-or-better minus WEAK | +0.41% | [-0.56%, +1.34%] |
-| Out-of-sample AUC: hand weights vs learned weights | 0.501 vs 0.460 | |
-
-The 95% interval for the IC includes zero, so the data do not support a claim that the score predicts forward relative returns. That is a legitimate finding: the score is useful as a description of today's move, not as a forecast.
-
-Full write-up: [docs/evaluation.md](docs/evaluation.md)
+*Results appear here automatically after the first run of the **Weekly Signal Evaluation**
+workflow on real data.*
 <!-- EVAL:END -->
 
 ## Methods
@@ -70,7 +64,8 @@ Design decisions worth noting:
 - **High volume on a down day is not confirmation.** It is treated as distribution and mostly
   discounted.
 - **Missing data is handled explicitly.** SPCX (SpaceX) only listed in June 2026, so it has no
-  200-day EMA yet. Instead of scoring the missing input as zero, which would bias new listings
+  200-day EMA yet. SK hynix (SKHY) is in the same position since its July 2026 Nasdaq ADR listing.
+  Instead of scoring the missing input as zero, which would bias new listings
   downward, the score is re-normalised over the inputs that exist and a `coverage` field reports
   how much of the model could be computed. Below 60% coverage the label is *INSUFFICIENT DATA*.
 - **No look-ahead.** Every value at day *t* uses data through the close of *t* only. A unit test
@@ -103,7 +98,7 @@ market_monitor.py        daily CLI
 scripts/
   update_dashboard.py    badges + docs/dashboard.md from the latest CSV
   evaluate_signal.py     docs/evaluation.md, figures, README results block
-tests/                   22 tests: indicator math, scoring rules, no-look-ahead, evaluation, CLI
+tests/                   25 tests: indicator math, scoring rules, no-look-ahead, evaluation, CLI
 .github/workflows/       daily monitor, weekly evaluation, tests on Python 3.10 and 3.12
 ```
 
@@ -127,9 +122,11 @@ evaluation, and `--source synthetic` to try everything without a network connect
 
 ## Limitations
 
-- The default universe is five stocks, several of them tied to the AI build-out, so results may
-  not generalise. Adding names from other sectors (banks, healthcare, energy, consumer) is the
-  most direct way to test that.
+- The default universe is ten stocks, most of them exposed to AI infrastructure (chips, memory,
+  data-centre power, solar), so they tend to move together and results may not generalise.
+  Adding names from other sectors (banks, healthcare, consumer) is the most direct way to test that.
+- SPCX and SKHY only listed in mid-2026, so they contribute few observations to the evaluation
+  and have no 200-day trend input yet (see *coverage* above).
 - Yahoo Finance data via `yfinance` is free but unofficial; a licensed feed would be needed for
   production use.
 - No transaction costs, slippage or survivorship-bias control.

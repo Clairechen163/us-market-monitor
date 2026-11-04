@@ -259,8 +259,8 @@ each training cut-off from the test period so overlapping targets cannot leak.
 
 ## Limitations
 
-- Five stocks is a small, concentrated, highly correlated universe. Results may not
-  generalise to other sectors or periods.
+- {len(res.tickers)} stocks is a small, concentrated, highly correlated universe. Results may not
+  generalise to other sectors or periods. Recent listings contribute only a few months of data.
 - Several baselines, ablations and a model are compared on the same data. Treat any single
   small difference as noise unless it holds up out of sample.
 - Yahoo Finance adjusted prices; no transaction costs, no survivorship-bias control.

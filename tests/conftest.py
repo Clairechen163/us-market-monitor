@@ -11,5 +11,5 @@ from monitor.data import load_synthetic  # noqa: E402
 @pytest.fixture(scope="session")
 def synthetic():
     # Index 0 and 4 are "young" listings (short history), like a recent IPO.
-    return load_synthetic(["SPCX", "KLAC", "ALAB", "TSLA", "VRT", "SPY"],
+    return load_synthetic(["SPCX", "NVDA", "ALAB", "TSLA", "ETN", "SPY"],
                           n_days=900, seed=11, end="2026-10-16")

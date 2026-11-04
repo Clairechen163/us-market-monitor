@@ -138,8 +138,14 @@ def main(argv: list[str] | None = None) -> int:
         (badges / f"{t}.svg").write_text(badge_svg(t, right, LABEL_COLORS.get(label, "#6b6a65")),
                                           encoding="utf-8")
 
+    # Remove badges for tickers that have left the universe.
+    stale = [p for p in badges.glob("*.svg") if p.stem not in df.index]
+    for p in stale:
+        p.unlink()
+
     (args.outdir / "dashboard.md").write_text(dashboard_md(df, csv.name), encoding="utf-8")
-    print(f"Updated {len(df)} badges and dashboard from {csv.name}")
+    print(f"Updated {len(df)} badges and dashboard from {csv.name}"
+          + (f"; removed {', '.join(sorted(p.stem for p in stale))}" if stale else ""))
     return 0
 
 

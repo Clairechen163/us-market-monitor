@@ -7,7 +7,26 @@ definitions the daily monitor uses.
 
 from __future__ import annotations
 
-TICKERS: list[str] = ["KLAC", "ALAB", "SPCX", "TSLA", "VRT"]
+TICKERS: list[str] = [
+    "ALAB",  # Astera Labs: AI connectivity chips
+    "AMD",   # Advanced Micro Devices: CPUs / GPUs
+    "NVDA",  # NVIDIA: GPUs
+    "MRVL",  # Marvell: custom silicon, networking
+    "GOOG",  # Alphabet: cloud, search, TPUs
+    "FSLR",  # First Solar: solar modules
+    "SKHY",  # SK hynix ADR: memory / HBM (Nasdaq from Jul 2026)
+    "ETN",   # Eaton: power management, data-centre electrical
+    "TSLA",  # Tesla: EVs, energy storage
+    "SPCX",  # SpaceX: launch, Starlink, xAI (Nasdaq from Jun 2026)
+]
+
+# First U.S. trading day for recent listings. Bars before these dates are
+# dropped: a reused symbol can carry an unrelated security's history (SPCX was
+# previously an ETF ticker), which would silently corrupt indicators.
+LISTING_DATES: dict[str, str] = {
+    "SPCX": "2026-06-12",
+    "SKHY": "2026-07-10",  # traded as SKHYV (when-issued) until 2026-07-13
+}
 
 # Relative strength is measured against this ETF (S&P 500).
 BENCHMARK: str = "SPY"

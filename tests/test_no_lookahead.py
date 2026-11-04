@@ -10,7 +10,7 @@ CHECK_COLS = ["ema20", "ema50", "ema200", "rsi14", "atr14", "rvol20", "breakout_
 
 
 def test_future_shock_does_not_leak(synthetic):
-    tickers = ["KLAC", "TSLA"]
+    tickers = ["NVDA", "TSLA"]
     cutoff = synthetic["TSLA"].index[-60]
 
     shocked = {t: f.copy() for t, f in synthetic.items()}

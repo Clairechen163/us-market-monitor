@@ -12,7 +12,7 @@ def test_weights_sum_to_100():
 
 
 def test_scores_bounded_and_labelled(synthetic):
-    panel = build_panel(synthetic, ["KLAC", "TSLA", "VRT"], "SPY")
+    panel = build_panel(synthetic, ["NVDA", "TSLA", "ETN"], "SPY")
     s = panel["score"].dropna()
     assert len(s) > 1000
     assert s.between(0, 100).all()
@@ -64,5 +64,5 @@ def test_ablation_renormalises(synthetic):
 
 
 def test_latest_snapshot_one_row_per_ticker(synthetic):
-    snap = latest_snapshot(build_panel(synthetic, ["KLAC", "TSLA", "SPCX"], "SPY"))
-    assert sorted(snap.index) == ["KLAC", "SPCX", "TSLA"]
+    snap = latest_snapshot(build_panel(synthetic, ["NVDA", "TSLA", "SPCX"], "SPY"))
+    assert sorted(snap.index) == ["NVDA", "SPCX", "TSLA"]
