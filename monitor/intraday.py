@@ -24,7 +24,7 @@ NY = "America/New_York"
 
 def _normalise(frame: pd.DataFrame) -> pd.DataFrame:
     frame = frame[OHLCV].copy()
-    idx = pd.to_datetime(frame.index, utc=True).tz_convert(NY)
+    idx = pd.to_datetime(frame.index, utc=True).tz_convert(NY).as_unit("ns")
     frame.index = idx
     frame = frame[~frame.index.duplicated(keep="last")].sort_index()
     frame = frame.dropna(subset=["Close"])

@@ -21,7 +21,9 @@ OHLCV = ["Open", "High", "Low", "Close", "Volume"]
 
 def _normalise(frame: pd.DataFrame) -> pd.DataFrame:
     frame = frame[OHLCV].copy()
-    frame.index = pd.to_datetime(frame.index).tz_localize(None).normalize()
+    # Fixed nanosecond precision: pandas may otherwise infer s/ms/us from the
+    # source, and joins between frames of different precision fail.
+    frame.index = pd.to_datetime(frame.index).tz_localize(None).normalize().as_unit("ns")
     frame = frame[~frame.index.duplicated(keep="last")].sort_index()
     frame = frame.dropna(subset=["Close"])
     return frame.astype(float)

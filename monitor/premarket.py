@@ -60,7 +60,7 @@ def session_table(bars: pd.DataFrame, cutoff: time = REG_OPEN,
     interval = interval or infer_interval(bars)
     step = int(interval / pd.Timedelta(minutes=1))
     start = bars.index.hour * 60 + bars.index.minute
-    day = bars.index.tz_localize(None).normalize()
+    day = bars.index.tz_localize(None).normalize().as_unit("ns")
 
     pre = (start >= _minutes(PRE_OPEN)) & (start + step <= _minutes(cutoff))
     reg = (start >= _minutes(REG_OPEN)) & (start < _minutes(REG_CLOSE))
@@ -138,6 +138,9 @@ def premarket_features(
         s = s.reset_index()
         if t in ctx.index.get_level_values("ticker"):
             c = ctx.xs(t, level="ticker").reset_index().sort_values("date")
+            # merge_asof needs identical datetime precision on both sides.
+            s["date"] = s["date"].astype("datetime64[ns]")
+            c["date"] = c["date"].astype("datetime64[ns]")
             s = pd.merge_asof(s.sort_values("date"), c, on="date",
                               direction="backward", allow_exact_matches=False)
         else:

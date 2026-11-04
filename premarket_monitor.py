@@ -119,6 +119,15 @@ def main(argv: list[str] | None = None) -> int:
     # Context must come from completed sessions only.
     daily = {t: d[d.index < today] for t, d in daily.items()}
 
+    # Short data summary so a failed run's log shows what the source returned.
+    print(f"As of {asof:%Y-%m-%d %H:%M} ET; pre-market bars through {cutoff:%H:%M}")
+    for t in symbols:
+        i, d = intraday.get(t), daily.get(t)
+        last = "none" if i is None or i.empty else f"{len(i)} bars, last {i.index[-1]:%m-%d %H:%M}"
+        days = "none" if d is None or d.empty else f"{len(d)} days to {d.index[-1]:%Y-%m-%d}"
+        print(f"  {t:<5} intraday: {last:<28} daily: {days}")
+    print()
+
     feats = premarket_features(intraday, daily, args.tickers, args.benchmark, cutoff=cutoff)
     if today not in feats.index.get_level_values("date"):
         print(f"No pre-market trading found for {today.date()} (weekend, holiday or too early).")

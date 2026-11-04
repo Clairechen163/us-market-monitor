@@ -137,3 +137,14 @@ def test_evaluate_premarket_end_to_end():
     assert -1 <= res.ic[0] <= 1
     assert set(res.ablation.index) == {"gap", "volume", "level", "context"}
     assert "Gap vs SPY only" in res.baselines.index
+
+
+@pytest.mark.parametrize("intraday_unit,daily_unit", [("s", "ns"), ("us", "ns"), ("ns", "us"), ("ms", "s")])
+def test_mixed_datetime_precision_from_data_source(live, intraday_unit, daily_unit):
+    # yfinance + pandas 3 can hand back intraday and daily indexes at different
+    # precisions; the pipeline must not care.
+    intr, daily = live
+    i2 = {t: f.set_axis(f.index.as_unit(intraday_unit)) for t, f in intr.items()}
+    d2 = {t: f.set_axis(f.index.as_unit(daily_unit)) for t, f in daily.items()}
+    f = premarket_features(i2, d2, TICKERS, "SPY", cutoff=time(8, 40))
+    assert f["ctx_score"].notna().any()
