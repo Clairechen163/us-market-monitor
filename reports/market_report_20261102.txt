@@ -2,7 +2,7 @@ US MARKET MONITOR
 Session: 2026-11-02   Data source: yahoo
 Signals describe price/volume alignment. They are not buy/sell recommendations.
 
-TSLA   score  77.8  [STRONG PRICE/VOLUME]  (coverage 100%)
+TSLA   score  77.9  [STRONG PRICE/VOLUME]  (coverage 100%)
    close 403.82  1d +1.0%  5d +3.1%  20d +6.6%  5d vs SPY +4.8%
    RVOL20 1.19  RSI14 62.5  ATR14 +3.4%  vs prior 20d high -1.7%
    components: trend 25.0/25  volume 13.0/25  breakout 11.3/20  momentum 13.9/15  relative_strength 14.7/15
@@ -17,7 +17,7 @@ KLAC   score  11.8  [WEAK]  (coverage 100%)
    RVOL20 1.29  RSI14 37.3  ATR14 +5.4%  vs prior 20d high -26.3%
    components: trend 0.0/25  volume 3.7/25  breakout 0.0/20  momentum 2.6/15  relative_strength 5.6/15
 
-SPCX   score  11.6  [WEAK]  (coverage 91%)
+SPCX   score  11.7  [WEAK]  (coverage 91%)
    close 136.37  1d +1.2%  5d -7.2%  20d -20.3%  5d vs SPY -5.4%
    RVOL20 0.87  RSI14 39.2  ATR14 +5.5%  vs prior 20d high -22.7%
    components: trend 0.0/25  volume 7.4/25  breakout 0.0/20  momentum 3.2/15  relative_strength 0.0/15
