@@ -39,8 +39,18 @@ The project has two halves:
 ## Results
 
 <!-- EVAL:START -->
-*Results appear here automatically after the first run of the **Weekly Signal Evaluation**
-workflow on real data.*
+*Last evaluated 2026-11-04 on 9,294 ticker-days (2021-12-03 to 2026-10-27), 5-day horizon, data: yahoo.*
+
+| Metric | Estimate | 95% CI |
+|---|---:|---:|
+| Rank IC: score vs forward return over SPY | +0.003 | [-0.051, +0.047] |
+| Rank IC, non-overlapping windows only | +0.027 | |
+| Mean return gap: POSITIVE-or-better minus WEAK | +0.47% | [-0.39%, +1.16%] |
+| Out-of-sample AUC: hand weights vs learned weights | 0.493 vs 0.488 | |
+
+The 95% interval for the IC includes zero, so the data do not support a claim that the score predicts forward relative returns. That is a legitimate finding: the score is useful as a description of today's move, not as a forecast.
+
+Full write-up: [docs/evaluation.md](docs/evaluation.md)
 <!-- EVAL:END -->
 
 ## Methods
