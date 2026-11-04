@@ -1,0 +1,13 @@
+US MARKET MONITOR - PRE-MARKET
+Session 2026-11-04  bars through 07:17 ET  source: yahoo
+
+FSLR    87.9 [STRONG PRICE/VOLUME]  pre-mkt 198.97  gap +7.0% (vs SPY +6.2%, +1.52 ATR)  RVOL –  vs 20d high +5.5%
+AMD     29.3 [WEAK]  pre-mkt 483.66  gap -0.2% (vs SPY -1.0%, -0.15 ATR)  RVOL –  vs 20d high -25.4%
+GOOG    24.4 [WEAK]  pre-mkt 280.20  gap +0.7% (vs SPY -0.1%, -0.04 ATR)  RVOL –  vs 20d high -21.1%
+MRVL    22.0 [WEAK]  pre-mkt 168.30  gap -2.1% (vs SPY -2.9%, -0.28 ATR)  RVOL –  vs 20d high -41.4%
+TSLA    21.5 [WEAK]  pre-mkt 374.88  gap -5.9% (vs SPY -6.7%, -1.98 ATR)  RVOL –  vs 20d high -9.5%
+NVDA    21.4 [WEAK]  pre-mkt 205.94  gap -0.3% (vs SPY -1.1%, -0.36 ATR)  RVOL –  vs 20d high -13.9%
+SKHY    21.3 [WEAK]  pre-mkt 149.55  gap -0.8% (vs SPY -1.7%, -0.27 ATR)  RVOL –  vs 20d high -17.4%
+ALAB    16.4 [WEAK]  pre-mkt 223.77  gap -4.5% (vs SPY -5.3%, -0.52 ATR)  RVOL –  vs 20d high -42.3%
+ETN      9.8 [WEAK]  pre-mkt 376.99  gap -3.7% (vs SPY -4.5%, -1.04 ATR)  RVOL –  vs 20d high -14.2%
+SPCX     4.0 [WEAK]  pre-mkt 133.32  gap -5.7% (vs SPY -6.5%, -1.23 ATR)  RVOL –  vs 20d high -22.2%
