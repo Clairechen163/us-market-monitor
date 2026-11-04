@@ -1,0 +1,45 @@
+name: Pre-market Monitor
+
+on:
+  schedule:
+    # Two triggers so one lands at ~08:40 ET in both summer (EDT, 12:40 UTC)
+    # and winter (EST, 13:40 UTC). The other is skipped by --window below.
+    - cron: "40 12,13 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: market-data-commit
+  cancel-in-progress: false
+
+jobs:
+  premarket:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Pre-market snapshot
+        run: python premarket_monitor.py ${{ github.event_name == 'schedule' && '--window 08:00-09:30' || '' }}
+
+      - name: Commit results
+        run: |
+          git config user.name  "Clairechen163"
+          git config user.email "${{ github.repository_owner_id }}+${{ github.repository_owner }}@users.noreply.github.com"
+          git add reports/premarket/ docs/premarket.md
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Pre-market signals for $(TZ=America/New_York date +%Y-%m-%d)"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push
+          fi

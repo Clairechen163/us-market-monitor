@@ -55,3 +55,24 @@ def test_dashboard_removes_badges_for_dropped_tickers(tmp_path):
     _load_script("update_dashboard").main(["--csv", str(csv), "--outdir", str(tmp_path / "docs")])
     assert not (badges / "KLAC.svg").exists()
     assert sorted(p.stem for p in badges.glob("*.svg")) == sorted(config.TICKERS)
+
+
+def test_premarket_cli(tmp_path):
+    import premarket_monitor
+
+    out, docs = tmp_path / "pm", tmp_path / "docs"
+    args = ["--source", "synthetic", "--outdir", str(out), "--docs", str(docs)]
+    assert premarket_monitor.main([*args, "--asof", "2026-11-04 08:40"]) == 0
+    df = pd.read_csv(next(out.glob("premarket_20261104_synthetic.csv")), index_col="ticker")
+    assert sorted(df.index) == sorted(config.TICKERS)
+    assert df["pm_score"].between(0, 100).all()
+    assert "Pre-market snapshot" in (docs / "premarket.md").read_text()
+
+    # Saturday: nothing to report, nothing written.
+    assert premarket_monitor.main([*args, "--asof", "2026-11-07 08:40", "--outdir", str(tmp_path / "sat")]) == 0
+    assert not (tmp_path / "sat").exists() or not list((tmp_path / "sat").glob("*.csv"))
+
+    # Scheduled run outside the window exits quietly.
+    assert premarket_monitor.main([*args, "--asof", "2026-11-04 07:40", "--window", "08:00-09:30",
+                                   "--outdir", str(tmp_path / "early")]) == 0
+    assert not (tmp_path / "early").exists()

@@ -3,6 +3,7 @@
 **A transparent price/volume signal for U.S. stocks, and a statistical test of whether it actually predicts anything.**
 
 [![Daily Market Monitor](https://github.com/Clairechen163/us-market-monitor/actions/workflows/daily-market-monitor.yml/badge.svg)](https://github.com/Clairechen163/us-market-monitor/actions/workflows/daily-market-monitor.yml)
+[![Pre-market Monitor](https://github.com/Clairechen163/us-market-monitor/actions/workflows/premarket-monitor.yml/badge.svg)](https://github.com/Clairechen163/us-market-monitor/actions/workflows/premarket-monitor.yml)
 [![Tests](https://github.com/Clairechen163/us-market-monitor/actions/workflows/tests.yml/badge.svg)](https://github.com/Clairechen163/us-market-monitor/actions/workflows/tests.yml)
 
 | ALAB | AMD | NVDA | MRVL | GOOG |
@@ -13,7 +14,7 @@
 |---|---|---|---|---|
 | ![FSLR](docs/badges/FSLR.svg) | ![SKHY](docs/badges/SKHY.svg) | ![ETN](docs/badges/ETN.svg) | ![TSLA](docs/badges/TSLA.svg) | ![SPCX](docs/badges/SPCX.svg) |
 
-**[Today's dashboard →](docs/dashboard.md)** · **[Full evaluation →](docs/evaluation.md)**
+**[End-of-day dashboard →](docs/dashboard.md)** · **[Pre-market snapshot →](docs/premarket.md)** · **[End-of-day evaluation →](docs/evaluation.md)** · **[Pre-market evaluation →](docs/premarket_evaluation.md)**
 
 ---
 
@@ -26,17 +27,26 @@ asks the question that matters to a data scientist:
 > **When price, volume, trend and breakout behaviour line up at today's close, do those stocks
 > outperform the S&P 500 over the following week?**
 
-The project has two halves:
+and the same question earlier in the day:
+
+> **When a stock is gapping up on heavy pre-market volume, does it keep outperforming the S&P 500
+> after the open, or does the gap fade?**
+
+The project has two halves, each run on end-of-day and on pre-market data:
 
 1. **Monitor (descriptive).** Every weekday after the U.S. close, a GitHub Action downloads
    prices, computes indicators, scores each stock from 0 to 100 and publishes badges and a
    dashboard. Any U.S.-listed stock or ETF works; edit `TICKERS` in `monitor/config.py`
    (default: ALAB, AMD, NVDA, MRVL, GOOG, FSLR, SKHY, ETN, TSLA, SPCX).
-2. **Evaluation (inferential).** Every week, the same scoring rules are replayed over five years
-   of history and tested against forward returns with time-series-aware statistics,
-   baselines, ablations and an out-of-sample model.
+   A second action runs at about 08:40 ET, before the open, and scores the pre-market session
+   (04:00–09:30 ET).
+2. **Evaluation (inferential).** Every week, the same scoring rules are replayed over history
+   (five years of daily bars; about two years of hourly extended-hours bars) and tested against
+   what happened next, with time-series-aware statistics, baselines and ablations.
 
 ## Results
+
+### End-of-day score → next 5 days
 
 <!-- EVAL:START -->
 *Last evaluated 2026-11-04 on 9,294 ticker-days (2021-12-03 to 2026-10-27), 5-day horizon, data: yahoo.*
@@ -52,6 +62,12 @@ The 95% interval for the IC includes zero, so the data do not support a claim th
 
 Full write-up: [docs/evaluation.md](docs/evaluation.md)
 <!-- EVAL:END -->
+
+### Pre-market score → same-day open-to-close
+
+<!-- PREMARKET-EVAL:START -->
+*Results appear here automatically after the next run of the **Weekly Signal Evaluation** workflow.*
+<!-- PREMARKET-EVAL:END -->
 
 ## Methods
 
@@ -81,6 +97,25 @@ Design decisions worth noting:
 - **No look-ahead.** Every value at day *t* uses data through the close of *t* only. A unit test
   multiplies all future prices by 3 and checks that no past score changes.
 
+### Pre-market score (0–100)
+
+Computed from pre-market bars that have fully closed by the snapshot time, with daily context
+taken from the previous completed session.
+
+| Component | Weight | Input | Mapping |
+|---|---:|---|---|
+| Gap | 30 | (pre-market price / prior close − 1) minus SPY's gap, divided by ATR14 % | −1 ATR→0, 0→50%, +1 ATR→100% |
+| Volume | 30 | Pre-market volume so far / average over the **same clock window** on the previous 10 sessions | 0.5→0, 1.0→40%, 2.0→75%, ≥3.0→100%; cut by 75% when gapping down |
+| Level | 15 | Pre-market price vs highest high of the prior 20 sessions | −10%→0, at the high→70%, +3%→100% |
+| Context | 25 | Prior close's end-of-day score | score / 100 |
+
+- **Gap in ATR units.** A 3% gap is routine for TSLA and unusual for ETN; dividing by each stock's
+  normal daily range makes gaps comparable.
+- **Same-time volume baseline.** Pre-market volume builds through the morning, so 08:40 volume is
+  compared with 08:40 volume on earlier days, never with a full session.
+- **Missing extended-hours volume** (Yahoo sometimes reports zero) is treated as unknown, not as
+  quiet: the volume component is left out and the score re-normalised.
+
 ### Evaluation
 
 | Step | Why |
@@ -92,6 +127,8 @@ Design decisions worth noting:
 | Baselines: momentum only, RVOL only, shuffled score | A composite should beat its simplest ingredients and a null |
 | Ablation: drop each component, re-score | Shows which inputs carry information |
 | Walk-forward logistic regression with a 5-day purge gap | Tests whether learned weights beat hand-chosen ones on unseen dates without label leakage |
+| Pre-market: target = open-to-close return **minus SPY**, same day | Starts at 09:30, after every input is known; one-day windows do not overlap |
+| Pre-market: gap-only baseline | Answers gap fade vs gap continuation directly |
 
 ## Repository layout
 
@@ -104,12 +141,18 @@ monitor/
   pipeline.py      OHLCV -> indicators -> scores panel
   evaluation.py    forward returns, IC, block bootstrap, baselines, walk-forward model
   report.py        daily text and CSV report
-market_monitor.py        daily CLI
+  intraday.py      extended-hours bars in New York time; synthetic sessions for tests
+  premarket.py     session splitting, pre-market features and score
+  premarket_eval.py  pre-market score vs same-day open-to-close return
+market_monitor.py        end-of-day CLI
+premarket_monitor.py     pre-market CLI -> reports/premarket/, docs/premarket.md
 scripts/
   update_dashboard.py    badges + docs/dashboard.md from the latest CSV
   evaluate_signal.py     docs/evaluation.md, figures, README results block
-tests/                   25 tests: indicator math, scoring rules, no-look-ahead, evaluation, CLI
-.github/workflows/       daily monitor, weekly evaluation, tests on Python 3.10 and 3.12
+  evaluate_premarket.py  docs/premarket_evaluation.md, figure, README results block
+tests/                   37 tests: indicator math, scoring rules, no-look-ahead (daily and
+                         pre-market), session boundaries, daylight saving, evaluation, CLI
+.github/workflows/       end-of-day monitor, pre-market monitor, weekly evaluation, tests
 ```
 
 ## Run it
@@ -123,6 +166,8 @@ pip install -r requirements.txt
 python market_monitor.py                 # today's report -> reports/
 python scripts/update_dashboard.py       # badges + dashboard -> docs/
 python scripts/evaluate_signal.py        # evaluation -> docs/evaluation.md
+python premarket_monitor.py              # pre-market snapshot -> reports/premarket/, docs/premarket.md
+python scripts/evaluate_premarket.py     # pre-market evaluation -> docs/premarket_evaluation.md
 pytest -q                                # test suite (runs offline)
 ```
 
@@ -137,6 +182,9 @@ evaluation, and `--source synthetic` to try everything without a network connect
   Adding names from other sectors (banks, healthcare, consumer) is the most direct way to test that.
 - SPCX and SKHY only listed in mid-2026, so they contribute few observations to the evaluation
   and have no 200-day trend input yet (see *coverage* above).
+- Pre-market history is limited to about two years of hourly bars, and extended-hours volume from
+  Yahoo can be incomplete. The live snapshot uses 5-minute bars at ~08:40 ET; the evaluation uses
+  hourly bars through 09:00 ET.
 - Yahoo Finance data via `yfinance` is free but unofficial; a licensed feed would be needed for
   production use.
 - No transaction costs, slippage or survivorship-bias control.

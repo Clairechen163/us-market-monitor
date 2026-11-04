@@ -82,17 +82,32 @@ def _style(ax):
     ax.set_axisbelow(True)
 
 
+def label_bars(ax, t: pd.DataFrame) -> None:
+    """Mean return per label with 95% CI. Labels too sparse for a CI are drawn
+    in grey and marked, so a missing error bar never reads as precision."""
+    x = np.arange(len(t))
+    has_ci = t["ci_lo"].notna() & t["ci_hi"].notna()
+    ax.bar(x, t["mean"] * 100, width=0.55, color=[BLUE if ok else GRAY for ok in has_ci], zorder=2)
+    if has_ci.any():
+        sub = t[has_ci]
+        err = np.vstack([(sub["mean"] - sub["ci_lo"]) * 100, (sub["ci_hi"] - sub["mean"]) * 100])
+        ax.errorbar(x[has_ci.to_numpy()], sub["mean"] * 100, yerr=err, fmt="none",
+                    ecolor=INK, elinewidth=1.2, capsize=4, zorder=3)
+    for xi, (m, ok) in enumerate(zip(t["mean"], has_ci)):
+        if not ok:
+            # Above the bar if positive; just above the zero line if negative.
+            ax.annotate("too few days\nfor a CI", (xi, max(m, 0) * 100), xytext=(0, 4),
+                        textcoords="offset points", ha="center", va="bottom",
+                        fontsize=8, color=MUTED)
+    ax.axhline(0, color=MUTED, linewidth=1)
+    ax.set_xticks(x, [f"{lab}\n(n={n:,})" for lab, n in zip(t.index, t["n"])], color=INK)
+
+
 def figure_labels(res: EvaluationResult, path: Path) -> None:
     t = res.by_label.dropna(subset=["mean"])
     fig, ax = plt.subplots(figsize=(7, 3.6), facecolor=SURFACE)
     _style(ax)
-    x = np.arange(len(t))
-    ax.bar(x, t["mean"] * 100, width=0.55, color=BLUE, zorder=2)
-    err = np.vstack([(t["mean"] - t["ci_lo"]) * 100, (t["ci_hi"] - t["mean"]) * 100])
-    ax.errorbar(x, t["mean"] * 100, yerr=np.nan_to_num(err), fmt="none",
-                ecolor=INK, elinewidth=1.2, capsize=4, zorder=3)
-    ax.axhline(0, color=MUTED, linewidth=1)
-    ax.set_xticks(x, [f"{lab}\n(n={n:,})" for lab, n in zip(t.index, t["n"])], color=INK)
+    label_bars(ax, t)
     ax.set_ylabel(f"Mean {res.horizon}-day return vs SPY (%)", color=MUTED, fontsize=9)
     ax.set_title("Forward relative return by signal label, with 95% block-bootstrap CI",
                  loc="left", fontsize=10.5, color=INK)

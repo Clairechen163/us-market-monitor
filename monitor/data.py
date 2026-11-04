@@ -32,7 +32,9 @@ def trim_to_listing(data: dict[str, pd.DataFrame], listing_dates: dict[str, str]
     out = {}
     for t, frame in data.items():
         start = listing_dates.get(t)
-        frame = frame[frame.index >= pd.Timestamp(start)] if start else frame
+        if start:
+            # Works for daily (naive) and intraday (tz-aware) indexes alike.
+            frame = frame[frame.index >= pd.Timestamp(start, tz=frame.index.tz)]
         if not frame.empty:
             out[t] = frame
     return out

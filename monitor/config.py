@@ -60,3 +60,23 @@ INSUFFICIENT_LABEL: str = "INSUFFICIENT DATA"
 FORWARD_HORIZON: int = 5
 
 assert abs(sum(WEIGHTS.values()) - 100.0) < 1e-9, "weights must sum to 100"
+
+
+# --------------------------------------------------------------------------
+# Pre-market monitor (04:00-09:30 ET)
+# --------------------------------------------------------------------------
+PREMARKET_WEIGHTS: dict[str, float] = {
+    "gap": 30.0,      # pre-market price vs prior close, relative to SPY, in ATR units
+    "volume": 30.0,   # pre-market volume vs the same clock time on recent days
+    "level": 15.0,    # pre-market price vs the prior 20-session high
+    "context": 25.0,  # prior close's end-of-day score (trend, momentum, ...)
+}
+
+# Sessions used to build the "normal" pre-market volume baseline.
+PREMARKET_RVOL_WINDOW: int = 10
+
+# Gaps larger than this are treated as data errors or corporate actions
+# (splits, symbol changes) and excluded from the evaluation.
+MAX_PLAUSIBLE_GAP: float = 0.40
+
+assert abs(sum(PREMARKET_WEIGHTS.values()) - 100.0) < 1e-9, "pre-market weights must sum to 100"
