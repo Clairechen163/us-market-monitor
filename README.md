@@ -49,14 +49,14 @@ The project has two halves, each run on end-of-day and on pre-market data:
 ### End-of-day score → next 5 days
 
 <!-- EVAL:START -->
-*Last evaluated 2026-11-04 on 9,294 ticker-days (2021-12-03 to 2026-10-27), 5-day horizon, data: yahoo.*
+*Last evaluated 2026-11-05 on 10,601 ticker-days (2021-12-06 to 2026-10-28), 5-day horizon, data: yahoo.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
-| Rank IC: score vs forward return over SPY | +0.003 | [-0.051, +0.047] |
-| Rank IC, non-overlapping windows only | +0.027 | |
-| Mean return gap: POSITIVE-or-better minus WEAK | +0.47% | [-0.39%, +1.16%] |
-| Out-of-sample AUC: hand weights vs learned weights | 0.493 vs 0.488 | |
+| Rank IC: score vs forward return over SPY | -0.008 | [-0.060, +0.038] |
+| Rank IC, non-overlapping windows only | +0.005 | |
+| Mean return gap: POSITIVE-or-better minus WEAK | +0.30% | [-0.47%, +0.93%] |
+| Out-of-sample AUC: hand weights vs learned weights | 0.487 vs 0.491 | |
 
 The 95% interval for the IC includes zero, so the data do not support a claim that the score predicts forward relative returns. That is a legitimate finding: the score is useful as a description of today's move, not as a forecast.
 
@@ -66,7 +66,17 @@ Full write-up: [docs/evaluation.md](docs/evaluation.md)
 ### Pre-market score → same-day open-to-close
 
 <!-- PREMARKET-EVAL:START -->
-*Results appear here automatically after the next run of the **Weekly Signal Evaluation** workflow.*
+*Last evaluated 2026-11-05 on 5,864 ticker-days (2023-12-26 to 2026-11-04), pre-market bars through 09:00 ET, data: yahoo.*
+
+| Metric | Estimate | 95% CI |
+|---|---:|---:|
+| Rank IC: pre-market score vs open-to-close return over SPY | -0.030 | [-0.066, +0.002] |
+| Mean return gap: POSITIVE-or-better minus WEAK | -0.08% | [-0.28%, +0.11%] |
+| Rank IC: gap vs SPY alone (negative = gaps fade) | +0.000 | |
+
+The 95% interval includes zero, so the data do not show that the pre-market score predicts the regular session. It describes the pre-market well; it is not a forecast.
+
+Full write-up: [docs/premarket_evaluation.md](docs/premarket_evaluation.md)
 <!-- PREMARKET-EVAL:END -->
 
 ## Methods

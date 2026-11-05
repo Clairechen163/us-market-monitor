@@ -6,14 +6,14 @@ performance relative to the S&P 500 over the next 5 trading days?**
 
 ## Summary
 
-*Last evaluated 2026-11-04 on 9,294 ticker-days (2021-12-03 to 2026-10-27), 5-day horizon, data: yahoo.*
+*Last evaluated 2026-11-05 on 10,601 ticker-days (2021-12-06 to 2026-10-28), 5-day horizon, data: yahoo.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
-| Rank IC: score vs forward return over SPY | +0.003 | [-0.051, +0.047] |
-| Rank IC, non-overlapping windows only | +0.027 | |
-| Mean return gap: POSITIVE-or-better minus WEAK | +0.47% | [-0.39%, +1.16%] |
-| Out-of-sample AUC: hand weights vs learned weights | 0.493 vs 0.488 | |
+| Rank IC: score vs forward return over SPY | -0.008 | [-0.060, +0.038] |
+| Rank IC, non-overlapping windows only | +0.005 | |
+| Mean return gap: POSITIVE-or-better minus WEAK | +0.30% | [-0.47%, +0.93%] |
+| Out-of-sample AUC: hand weights vs learned weights | 0.487 vs 0.491 | |
 
 The 95% interval for the IC includes zero, so the data do not support a claim that the score predicts forward relative returns. That is a legitimate finding: the score is useful as a description of today's move, not as a forecast.
 
@@ -21,8 +21,8 @@ The 95% interval for the IC includes zero, so the data do not support a claim th
 
 ## Setup
 
-- **Universe:** ALAB, AMD, ETN, FSLR, GOOG, MRVL, NVDA, SKHY, TSLA; benchmark SPY.
-- **Sample:** 1,229 trading days, 9,294 ticker-days with a full score.
+- **Universe:** ALAB, AMD, AMZN, ETN, FSLR, GOOG, MRVL, NVDA, SKHY, SPCX, TSLA; benchmark SPY.
+- **Sample:** 1,229 trading days, 10,601 ticker-days with a full score.
   Rows labelled *INSUFFICIENT DATA* (too little history, e.g. right after an IPO) are excluded.
 - **Target:** 5-day forward return minus SPY's forward return over the same days.
 - **No look-ahead:** every indicator at day *t* uses data through the close of *t* only;
@@ -37,10 +37,10 @@ The 95% interval for the IC includes zero, so the data do not support a claim th
 
 | label | n | mean | ci_lo | ci_hi | median | hit_rate |
 |---|---:|---:|---:|---:|---:|---:|
-| STRONG PRICE/VOLUME | 740 | +0.98% | +0.09% | +2.16% | +0.32% | 52.7% |
-| POSITIVE | 1,806 | +0.62% | +0.02% | +1.22% | +0.04% | 50.6% |
-| WATCH | 1,856 | +0.55% | -0.06% | +1.27% | +0.29% | 51.9% |
-| WEAK | 4,892 | +0.26% | -0.21% | +0.81% | +0.08% | 50.8% |
+| STRONG PRICE/VOLUME | 828 | +0.80% | -0.02% | +1.84% | +0.20% | 51.9% |
+| POSITIVE | 2,114 | +0.48% | -0.10% | +1.07% | -0.05% | 49.6% |
+| WATCH | 2,144 | +0.46% | -0.04% | +1.18% | +0.21% | 51.4% |
+| WEAK | 5,515 | +0.27% | -0.20% | +0.81% | +0.10% | 51.1% |
 
 ## Stability
 
@@ -50,26 +50,28 @@ The full-sample IC can hide periods where the relationship flips sign.
 
 | year | n | ic |
 |---|---:|---:|
-| 2021 | 140 | +0.113 |
-| 2022 | 1,757 | -0.006 |
-| 2023 | 1,750 | -0.109 |
-| 2024 | 1,942 | +0.043 |
-| 2025 | 2,000 | -0.010 |
-| 2026 | 1,705 | -0.032 |
+| 2021 | 152 | +0.078 |
+| 2022 | 2,008 | -0.024 |
+| 2023 | 2,000 | -0.121 |
+| 2024 | 2,194 | +0.038 |
+| 2025 | 2,250 | -0.019 |
+| 2026 | 1,997 | -0.051 |
 
 By ticker:
 
 | ticker | n | ic | first_date |
 |---|---:|---:|---:|
-| ALAB | 634 | +0.105 | 2024-04-18 |
-| AMD | 1,229 | +0.035 | 2021-12-03 |
-| ETN | 1,229 | -0.047 | 2021-12-03 |
-| FSLR | 1,229 | -0.046 | 2021-12-03 |
-| GOOG | 1,229 | -0.001 | 2021-12-03 |
-| MRVL | 1,229 | -0.040 | 2021-12-03 |
-| NVDA | 1,229 | -0.031 | 2021-12-03 |
-| SKHY | 57 | -0.314 | 2026-08-07 |
-| TSLA | 1,229 | +0.036 | 2021-12-03 |
+| ALAB | 635 | +0.106 | 2024-04-18 |
+| AMD | 1,229 | +0.032 | 2021-12-06 |
+| AMZN | 1,229 | -0.092 | 2021-12-06 |
+| ETN | 1,229 | -0.049 | 2021-12-06 |
+| FSLR | 1,229 | -0.048 | 2021-12-06 |
+| GOOG | 1,229 | +0.001 | 2021-12-06 |
+| MRVL | 1,229 | -0.041 | 2021-12-06 |
+| NVDA | 1,229 | -0.033 | 2021-12-06 |
+| SKHY | 58 | -0.330 | 2026-08-07 |
+| SPCX | 76 | +0.027 | 2026-07-14 |
+| TSLA | 1,229 | +0.035 | 2021-12-06 |
 
 ## Baselines and ablation
 
@@ -80,19 +82,19 @@ re-scores the full history with one component removed and the rest re-weighted t
 
 | signal | ic |
 |---|---:|
-| Composite score (this model) | +0.003 |
-| 20-day return only (momentum) | +0.013 |
-| 20-day return vs SPY only | +0.014 |
-| RVOL20 only | +0.014 |
-| Shuffled score (null) | -0.006 |
+| Composite score (this model) | -0.008 |
+| 20-day return only (momentum) | +0.006 |
+| 20-day return vs SPY only | +0.008 |
+| RVOL20 only | +0.015 |
+| Shuffled score (null) | +0.003 |
 
 | removed | ic | change |
 |---|---:|---:|
-| trend | +0.001 | -0.001 |
-| volume | +0.006 | +0.003 |
-| breakout | -0.001 | -0.004 |
-| momentum | +0.005 | +0.002 |
-| relative_strength | +0.002 | -0.000 |
+| trend | -0.006 | +0.001 |
+| volume | -0.006 | +0.002 |
+| breakout | -0.012 | -0.004 |
+| momentum | -0.005 | +0.003 |
+| relative_strength | -0.008 | -0.000 |
 
 A negative *change* means removing the component hurts, i.e. it was contributing.
 
@@ -103,18 +105,18 @@ differently, a logistic regression on the five component scores is refit every q
 expanding window and used only to score later dates. A 5-day gap separates
 each training cut-off from the test period so overlapping targets cannot leak.
 
-Out-of-sample period: 2022-12-05 onward, 7,530 ticker-days.
+Out-of-sample period: 2022-12-06 onward, 8,585 ticker-days.
 
 | Model | AUC (target: beats SPY) | Spearman IC |
 |---|---:|---:|
-| Hand-weighted score | 0.493 | -0.009 |
-| Walk-forward logistic regression | 0.488 | -0.036 |
+| Hand-weighted score | 0.487 | -0.020 |
+| Walk-forward logistic regression | 0.491 | -0.036 |
 
 Learning the weights from data does not beat the hand-chosen weights out of sample. With this little data, the simpler fixed-weight model is preferable.
 
 ## Limitations
 
-- 9 stocks is a small, concentrated, highly correlated universe. Results may not
+- 11 stocks is a small, concentrated, highly correlated universe. Results may not
   generalise to other sectors or periods. Recent listings contribute only a few months of data.
 - Several baselines, ablations and a model are compared on the same data. Treat any single
   small difference as noise unless it holds up out of sample.
