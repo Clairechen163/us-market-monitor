@@ -185,6 +185,10 @@ def main(argv: list[str] | None = None) -> int:
         if len(daily) < len(symbols):
             daily = load_daily(symbols, source="yahoo", period=config.HISTORY_PERIOD, cache_dir=args.cache)
 
+    missing = [t for t in symbols if t not in intraday or t not in daily]
+    if missing:
+        print(f"WARNING: incomplete data for {', '.join(missing)}; evaluating without them",
+              file=sys.stderr)
     res = evaluate_premarket(intraday, daily, args.tickers, args.benchmark, args.cutoff, reps=args.reps)
 
     (args.outdir / "figures").mkdir(parents=True, exist_ok=True)

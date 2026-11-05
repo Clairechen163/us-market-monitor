@@ -313,6 +313,10 @@ def main(argv: list[str] | None = None) -> int:
         if args.download or len(data) < len(symbols):
             data = load(symbols, source="yahoo", period=config.HISTORY_PERIOD, cache_dir=args.cache)
 
+    missing = [t for t in symbols if t not in data]
+    if missing:
+        print(f"WARNING: no price data for {', '.join(missing)}; evaluating without them",
+              file=sys.stderr)
     res = evaluate(data, args.tickers, args.benchmark, args.horizon, bootstrap_reps=args.reps)
 
     figdir = args.outdir / "figures"

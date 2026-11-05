@@ -32,8 +32,12 @@ def _normalise(frame: pd.DataFrame) -> pd.DataFrame:
     return frame.astype(float)
 
 
-def load_yahoo_intraday(tickers: list[str], period: str, interval: str) -> dict[str, pd.DataFrame]:
-    """Raw (unadjusted) intraday bars with pre- and post-market sessions."""
+def load_yahoo_intraday(tickers: list[str], period: str, interval: str,
+                        retry: bool = True) -> dict[str, pd.DataFrame]:
+    """Raw (unadjusted) intraday bars with pre- and post-market sessions.
+
+    Failed symbols are requested once more on their own (see data.load_yahoo).
+    """
     import yfinance as yf
 
     raw = yf.download(
@@ -55,6 +59,9 @@ def load_yahoo_intraday(tickers: list[str], period: str, interval: str) -> dict[
         frame = _normalise(frame)
         if not frame.empty:
             out[t] = frame
+    missing = [t for t in tickers if t not in out]
+    if missing and retry:
+        out.update(load_yahoo_intraday(missing, period=period, interval=interval, retry=False))
     return trim_to_listing(out, LISTING_DATES)
 
 

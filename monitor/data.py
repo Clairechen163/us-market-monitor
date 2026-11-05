@@ -42,8 +42,12 @@ def trim_to_listing(data: dict[str, pd.DataFrame], listing_dates: dict[str, str]
     return out
 
 
-def load_yahoo(tickers: list[str], period: str = "5y") -> dict[str, pd.DataFrame]:
-    """Download split/dividend-adjusted daily bars. Missing symbols are skipped."""
+def load_yahoo(tickers: list[str], period: str = "5y", retry: bool = True) -> dict[str, pd.DataFrame]:
+    """Download split/dividend-adjusted daily bars.
+
+    Yahoo occasionally fails one symbol inside a multi-ticker request, so any
+    missing symbol is requested once more on its own before being skipped.
+    """
     import yfinance as yf
 
     raw = yf.download(
@@ -64,6 +68,9 @@ def load_yahoo(tickers: list[str], period: str = "5y") -> dict[str, pd.DataFrame
         frame = _normalise(frame)
         if not frame.empty:
             out[t] = frame
+    missing = [t for t in tickers if t not in out]
+    if missing and retry:
+        out.update(load_yahoo(missing, period=period, retry=False))
     return trim_to_listing(out, LISTING_DATES)
 
 

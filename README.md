@@ -6,9 +6,9 @@
 [![Pre-market Monitor](https://github.com/Clairechen163/us-market-monitor/actions/workflows/premarket-monitor.yml/badge.svg)](https://github.com/Clairechen163/us-market-monitor/actions/workflows/premarket-monitor.yml)
 [![Tests](https://github.com/Clairechen163/us-market-monitor/actions/workflows/tests.yml/badge.svg)](https://github.com/Clairechen163/us-market-monitor/actions/workflows/tests.yml)
 
-| ALAB | AMD | NVDA | MRVL | GOOG |
-|---|---|---|---|---|
-| ![ALAB](docs/badges/ALAB.svg) | ![AMD](docs/badges/AMD.svg) | ![NVDA](docs/badges/NVDA.svg) | ![MRVL](docs/badges/MRVL.svg) | ![GOOG](docs/badges/GOOG.svg) |
+| ALAB | AMD | NVDA | MRVL | GOOG | AMZN |
+|---|---|---|---|---|---|
+| ![ALAB](docs/badges/ALAB.svg) | ![AMD](docs/badges/AMD.svg) | ![NVDA](docs/badges/NVDA.svg) | ![MRVL](docs/badges/MRVL.svg) | ![GOOG](docs/badges/GOOG.svg) | ![AMZN](docs/badges/AMZN.svg) |
 
 | FSLR | SKHY | ETN | TSLA | SPCX |
 |---|---|---|---|---|
@@ -37,7 +37,7 @@ The project has two halves, each run on end-of-day and on pre-market data:
 1. **Monitor (descriptive).** Every weekday after the U.S. close, a GitHub Action downloads
    prices, computes indicators, scores each stock from 0 to 100 and publishes badges and a
    dashboard. Any U.S.-listed stock or ETF works; edit `TICKERS` in `monitor/config.py`
-   (default: ALAB, AMD, NVDA, MRVL, GOOG, FSLR, SKHY, ETN, TSLA, SPCX).
+   (default: ALAB, AMD, NVDA, MRVL, GOOG, AMZN, FSLR, SKHY, ETN, TSLA, SPCX).
    A second action runs at about 08:40 ET, before the open, and scores the pre-market session
    (04:00–09:30 ET).
 2. **Evaluation (inferential).** Every week, the same scoring rules are replayed over history
@@ -150,7 +150,7 @@ scripts/
   update_dashboard.py    badges + docs/dashboard.md from the latest CSV
   evaluate_signal.py     docs/evaluation.md, figures, README results block
   evaluate_premarket.py  docs/premarket_evaluation.md, figure, README results block
-tests/                   37 tests: indicator math, scoring rules, no-look-ahead (daily and
+tests/                   42 tests: indicator math, scoring rules, no-look-ahead (daily and
                          pre-market), session boundaries, daylight saving, evaluation, CLI
 .github/workflows/       end-of-day monitor, pre-market monitor, weekly evaluation, tests
 ```
@@ -177,8 +177,8 @@ evaluation, and `--source synthetic` to try everything without a network connect
 
 ## Limitations
 
-- The default universe is ten stocks, most of them exposed to AI infrastructure (chips, memory,
-  data-centre power, solar), so they tend to move together and results may not generalise.
+- The default universe is eleven stocks, most of them exposed to AI infrastructure (chips, memory,
+  cloud, data-centre power, solar), so they tend to move together and results may not generalise.
   Adding names from other sectors (banks, healthcare, consumer) is the most direct way to test that.
 - SPCX and SKHY only listed in mid-2026, so they contribute few observations to the evaluation
   and have no 200-day trend input yet (see *coverage* above).
