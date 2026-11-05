@@ -66,13 +66,13 @@ Full write-up: [docs/evaluation.md](docs/evaluation.md)
 ### Pre-market score → same-day open-to-close
 
 <!-- PREMARKET-EVAL:START -->
-*Last evaluated 2026-11-05 on 5,864 ticker-days (2023-12-26 to 2026-11-04), pre-market bars through 09:00 ET, data: yahoo.*
+*Last evaluated 2026-11-05 on 6,596 ticker-days (2023-11-07 to 2026-11-04), pre-market bars through 08:30 ET, data: alpaca-sip.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
-| Rank IC: pre-market score vs open-to-close return over SPY | -0.030 | [-0.066, +0.002] |
-| Mean return gap: POSITIVE-or-better minus WEAK | -0.08% | [-0.28%, +0.11%] |
-| Rank IC: gap vs SPY alone (negative = gaps fade) | +0.000 | |
+| Rank IC: pre-market score vs open-to-close return over SPY | -0.025 | [-0.056, +0.001] |
+| Mean return gap: POSITIVE-or-better minus WEAK | +0.06% | [-0.14%, +0.27%] |
+| Rank IC: gap vs SPY alone (negative = gaps fade) | -0.010 | |
 
 The 95% interval includes zero, so the data do not show that the pre-market score predicts the regular session. It describes the pre-market well; it is not a forecast.
 
