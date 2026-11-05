@@ -1,14 +1,14 @@
 US MARKET MONITOR - PRE-MARKET
-Session 2026-11-05  bars through 05:27 ET  source: yahoo
+Session 2026-11-05  bars through 07:45 ET  source: alpaca-sip
 
-AMZN    66.4 [POSITIVE]  pre-mkt 267.59  gap +0.5% (vs SPY +0.5%, +0.14 ATR)  RVOL –  vs 20d high -1.4%
-FSLR    66.3 [POSITIVE]  pre-mkt 199.77  gap +2.7% (vs SPY +2.6%, +0.56 ATR)  RVOL –  vs 20d high -7.0%
-GOOG    31.0 [WEAK]  pre-mkt 289.46  gap +0.7% (vs SPY +0.6%, +0.18 ATR)  RVOL –  vs 20d high -18.5%
-TSLA    27.9 [WEAK]  pre-mkt 379.00  gap -1.6% (vs SPY -1.7%, -0.47 ATR)  RVOL –  vs 20d high -8.5%
-AMD     25.6 [WEAK]  pre-mkt 475.94  gap -2.6% (vs SPY -2.7%, -0.43 ATR)  RVOL –  vs 20d high -26.1%
-ETN     21.3 [WEAK]  pre-mkt 350.25  gap -0.7% (vs SPY -0.8%, -0.15 ATR)  RVOL –  vs 20d high -20.2%
-SPCX    20.2 [WEAK]  pre-mkt 134.50  gap -1.0% (vs SPY -1.1%, -0.20 ATR)  RVOL –  vs 20d high -19.7%
-NVDA    20.2 [WEAK]  pre-mkt 199.43  gap -0.4% (vs SPY -0.5%, -0.16 ATR)  RVOL –  vs 20d high -15.9%
-MRVL    18.5 [WEAK]  pre-mkt 155.87  gap -2.5% (vs SPY -2.6%, -0.23 ATR)  RVOL –  vs 20d high -45.1%
-ALAB    18.1 [WEAK]  pre-mkt 217.25  gap -2.8% (vs SPY -2.8%, -0.26 ATR)  RVOL –  vs 20d high -43.3%
-SKHY    10.3 [WEAK]  pre-mkt 137.28  gap -4.0% (vs SPY -4.1%, -0.63 ATR)  RVOL –  vs 20d high -22.5%
+FSLR    83.1 [STRONG PRICE/VOLUME]  pre-mkt 202.92  gap +4.3% (vs SPY +4.3%, +0.91 ATR)  RVOL 3.82  vs 20d high -5.6%
+AMZN    66.5 [POSITIVE]  pre-mkt 270.16  gap +1.5% (vs SPY +1.5%, +0.46 ATR)  RVOL 1.21  vs 20d high -0.5%
+GOOG    32.1 [WEAK]  pre-mkt 290.72  gap +1.2% (vs SPY +1.1%, +0.31 ATR)  RVOL 0.85  vs 20d high -18.2%
+AMD     18.8 [WEAK]  pre-mkt 467.97  gap -4.3% (vs SPY -4.3%, -0.67 ATR)  RVOL 1.59  vs 20d high -27.3%
+TSLA    18.7 [WEAK]  pre-mkt 376.94  gap -2.2% (vs SPY -2.2%, -0.60 ATR)  RVOL 0.76  vs 20d high -9.0%
+ETN     16.4 [WEAK]  pre-mkt 345.23  gap -2.2% (vs SPY -2.2%, -0.41 ATR)  RVOL 1.93  vs 20d high -21.4%
+NVDA    14.2 [WEAK]  pre-mkt 197.15  gap -1.6% (vs SPY -1.6%, -0.50 ATR)  RVOL 1.80  vs 20d high -16.8%
+MRVL    13.7 [WEAK]  pre-mkt 152.60  gap -4.6% (vs SPY -4.6%, -0.41 ATR)  RVOL 1.18  vs 20d high -46.2%
+ALAB    13.4 [WEAK]  pre-mkt 212.66  gap -4.8% (vs SPY -4.8%, -0.45 ATR)  RVOL 1.17  vs 20d high -44.5%
+SPCX    11.2 [WEAK]  pre-mkt 132.55  gap -2.4% (vs SPY -2.4%, -0.45 ATR)  RVOL 0.64  vs 20d high -20.9%
+SKHY     5.8 [WEAK]  pre-mkt 134.35  gap -6.1% (vs SPY -6.1%, -0.94 ATR)  RVOL 1.07  vs 20d high -24.2%

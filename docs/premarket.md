@@ -1,7 +1,9 @@
 # Pre-market snapshot
 
-**Session:** 2026-11-05 · **Pre-market bars through:** 05:27 ET
-(snapshot taken 05:27 ET) · regenerated automatically on weekday mornings before the open.
+**Session:** 2026-11-05 · **Pre-market bars through:** 07:45 ET
+(run at 08:01 ET) · regenerated automatically on weekday mornings before the open.
+
+**Data:** Alpaca SIP feed (all U.S. exchanges, including pre-market volume; 15-minute delay).
 
 > Describes how each stock is trading before the open relative to its prior close, SPY and its
 > own normal pre-market activity. Not a buy/sell recommendation. Whether it predicts the regular
@@ -11,33 +13,33 @@
 
 | Ticker | Score | Label | Pre-mkt | Prior close | Gap | Gap vs SPY | Gap / ATR | Pre-mkt RVOL | vs 20d high | Coverage |
 |---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| **AMZN** | 66.4 | POSITIVE | 267.59 | 266.14 | +0.5% | +0.5% | +0.14 | – | -1.4% | 70% |
-| **FSLR** | 66.3 | POSITIVE | 199.77 | 194.51 | +2.7% | +2.6% | +0.56 | – | -7.0% | 70% |
-| **GOOG** | 31.0 | WEAK | 289.46 | 287.39 | +0.7% | +0.6% | +0.18 | – | -18.5% | 70% |
-| **TSLA** | 27.9 | WEAK | 379.00 | 385.30 | -1.6% | -1.7% | -0.47 | – | -8.5% | 70% |
-| **AMD** | 25.6 | WEAK | 475.94 | 488.85 | -2.6% | -2.7% | -0.43 | – | -26.1% | 70% |
-| **ETN** | 21.3 | WEAK | 350.25 | 352.79 | -0.7% | -0.8% | -0.15 | – | -20.2% | 70% |
-| **SPCX** | 20.2 | WEAK | 134.50 | 135.85 | -1.0% | -1.1% | -0.20 | – | -19.7% | 70% |
-| **NVDA** | 20.2 | WEAK | 199.43 | 200.29 | -0.4% | -0.5% | -0.16 | – | -15.9% | 70% |
-| **MRVL** | 18.5 | WEAK | 155.87 | 159.91 | -2.5% | -2.6% | -0.23 | – | -45.1% | 70% |
-| **ALAB** | 18.1 | WEAK | 217.25 | 223.41 | -2.8% | -2.8% | -0.26 | – | -43.3% | 70% |
-| **SKHY** | 10.3 | WEAK | 137.28 | 143.07 | -4.0% | -4.1% | -0.63 | – | -22.5% | 70% |
+| **FSLR** | 83.1 | STRONG PRICE/VOLUME | 202.92 | 194.51 | +4.3% | +4.3% | +0.91 | 3.82 | -5.6% | 100% |
+| **AMZN** | 66.5 | POSITIVE | 270.16 | 266.14 | +1.5% | +1.5% | +0.46 | 1.21 | -0.5% | 100% |
+| **GOOG** | 32.1 | WEAK | 290.72 | 287.41 | +1.2% | +1.1% | +0.31 | 0.85 | -18.2% | 100% |
+| **AMD** | 18.8 | WEAK | 467.97 | 488.75 | -4.3% | -4.3% | -0.67 | 1.59 | -27.3% | 100% |
+| **TSLA** | 18.7 | WEAK | 376.94 | 385.31 | -2.2% | -2.2% | -0.60 | 0.76 | -9.0% | 100% |
+| **ETN** | 16.4 | WEAK | 345.23 | 352.82 | -2.2% | -2.2% | -0.41 | 1.93 | -21.4% | 100% |
+| **NVDA** | 14.2 | WEAK | 197.15 | 200.29 | -1.6% | -1.6% | -0.50 | 1.80 | -16.8% | 100% |
+| **MRVL** | 13.7 | WEAK | 152.60 | 159.91 | -4.6% | -4.6% | -0.41 | 1.18 | -46.2% | 100% |
+| **ALAB** | 13.4 | WEAK | 212.66 | 223.27 | -4.8% | -4.8% | -0.45 | 1.17 | -44.5% | 100% |
+| **SPCX** | 11.2 | WEAK | 132.55 | 135.83 | -2.4% | -2.4% | -0.45 | 0.64 | -20.9% | 100% |
+| **SKHY** | 5.8 | WEAK | 134.35 | 143.08 | -6.1% | -6.1% | -0.94 | 1.07 | -24.2% | 100% |
 
 ## Score breakdown
 
 | Ticker | Gap (/30) | Volume (/30) | Level (/15) | Context (/25) |
 |---|---:|---:|---:|---:|
-| AMZN | 17.2 | – | 8.8 | 20.6 |
-| FSLR | 23.4 | – | 2.7 | 20.4 |
-| GOOG | 17.7 | – | 0.0 | 4.0 |
-| TSLA | 8.0 | – | 1.3 | 10.2 |
-| AMD | 8.6 | – | 0.0 | 9.3 |
-| ETN | 12.7 | – | 0.0 | 2.1 |
-| SPCX | 12.1 | – | 0.0 | 2.0 |
-| NVDA | 12.6 | – | 0.0 | 1.5 |
-| MRVL | 11.5 | – | 0.0 | 1.4 |
-| ALAB | 11.0 | – | 0.0 | 1.7 |
-| SKHY | 5.5 | – | 0.0 | 1.7 |
+| FSLR | 28.7 | 30.0 | 4.0 | 20.4 |
+| AMZN | 21.9 | 14.2 | 9.9 | 20.6 |
+| GOOG | 19.7 | 8.4 | 0.0 | 4.0 |
+| AMD | 4.9 | 4.5 | 0.0 | 9.3 |
+| TSLA | 5.9 | 1.6 | 0.9 | 10.2 |
+| ETN | 8.8 | 5.4 | 0.0 | 2.1 |
+| NVDA | 7.6 | 5.1 | 0.0 | 1.5 |
+| MRVL | 8.8 | 3.5 | 0.0 | 1.4 |
+| ALAB | 8.3 | 3.4 | 0.0 | 1.7 |
+| SPCX | 8.3 | 0.9 | 0.0 | 2.0 |
+| SKHY | 0.9 | 3.2 | 0.0 | 1.7 |
 
 **Gap / ATR** expresses the gap over SPY in units of the stock's normal daily range (ATR14).
 **Pre-mkt RVOL** compares pre-market volume so far with the average over the same part of the
