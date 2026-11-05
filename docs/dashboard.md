@@ -10,6 +10,7 @@
 
 | Ticker | Badge | Score | Close | 1d | 5d vs SPY | RVOL20 | RSI14 | vs 20d high | ATR % |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| **AMZN** | ![AMZN](badges/AMZN.svg) | 82.2 | 266.03 | +6.1% | +5.2% | 2.17 | 59.9 | +0.3% | +3.2% |
 | **FSLR** | ![FSLR](badges/FSLR.svg) | 81.6 | 194.51 | +4.6% | +11.0% | 3.93 | 62.9 | +3.1% | +4.7% |
 | **TSLA** | ![TSLA](badges/TSLA.svg) | 41.0 | 385.19 | -3.3% | -4.0% | 1.31 | 51.4 | -7.0% | +3.7% |
 | **AMD** | ![AMD](badges/AMD.svg) | 37.3 | 488.78 | +1.0% | -14.8% | 2.31 | 39.5 | -24.6% | +6.4% |
@@ -30,6 +31,7 @@ of the 100 points that could be computed. Below 60% the label is
 
 | Ticker | Trend (/25) | Volume (/25) | Breakout (/20) | Momentum (/15) | Relative Strength (/15) | Coverage |
 |---|---:|---:|---:|---:|---:|---:|
+| AMZN | 17.0 | 25.0 | 14.5 | 13.5 | 12.2 | 100% |
 | FSLR | 8.0 | 25.0 | 20.0 | 13.9 | 14.7 | 100% |
 | TSLA | 17.0 | 3.8 | 3.6 | 10.0 | 6.6 | 100% |
 | AMD | 9.0 | 25.0 | 0.0 | 3.3 | 0.0 | 100% |

@@ -2,6 +2,11 @@ US MARKET MONITOR
 Session: 2026-11-04   Data source: yahoo
 Signals describe price/volume alignment. They are not buy/sell recommendations.
 
+AMZN   score  82.2  [STRONG PRICE/VOLUME]  (coverage 100%)
+   close 266.03  1d +6.1%  5d +4.5%  20d +2.4%  5d vs SPY +5.2%
+   RVOL20 2.17  RSI14 59.9  ATR14 +3.2%  vs prior 20d high +0.3%
+   components: trend 17.0/25  volume 25.0/25  breakout 14.5/20  momentum 13.5/15  relative_strength 12.2/15
+
 FSLR   score  81.6  [STRONG PRICE/VOLUME]  (coverage 100%)
    close 194.51  1d +4.6%  5d +10.3%  20d +8.0%  5d vs SPY +11.0%
    RVOL20 3.93  RSI14 62.9  ATR14 +4.7%  vs prior 20d high +3.1%
