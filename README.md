@@ -38,10 +38,10 @@ The project has two halves, each run on end-of-day and on pre-market data:
    prices, computes indicators, scores each stock from 0 to 100 and publishes badges and a
    dashboard. Any U.S.-listed stock or ETF works; edit `TICKERS` in `monitor/config.py`
    (default: ALAB, AMD, NVDA, MRVL, GOOG, AMZN, FSLR, SKHY, ETN, TSLA, SPCX).
-   A second action runs at about 08:40 ET, before the open, and scores the pre-market session
-   (04:00–09:30 ET).
+   A second action runs at about 08:55 ET, before the open, and scores the pre-market session
+   (from 04:00 ET) using bars through 08:30 ET.
 2. **Evaluation (inferential).** Every week, the same scoring rules are replayed over history
-   (five years of daily bars; about two years of hourly extended-hours bars) and tested against
+   (five years of daily bars; about three years of 30-minute pre-market bars) and tested against
    what happened next, with time-series-aware statistics, baselines and ablations.
 
 ## Results
@@ -109,8 +109,9 @@ Design decisions worth noting:
 
 ### Pre-market score (0–100)
 
-Computed from pre-market bars that have fully closed by the snapshot time, with daily context
-taken from the previous completed session.
+Computed from pre-market bars that closed by **08:30 ET**, with daily context taken from the
+previous completed session. The live snapshot and the historical evaluation use the same 08:30
+cut-off, so the evaluation tests exactly what the daily page shows.
 
 | Component | Weight | Input | Mapping |
 |---|---:|---|---|
@@ -121,10 +122,14 @@ taken from the previous completed session.
 
 - **Gap in ATR units.** A 3% gap is routine for TSLA and unusual for ETN; dividing by each stock's
   normal daily range makes gaps comparable.
-- **Same-time volume baseline.** Pre-market volume builds through the morning, so 08:40 volume is
-  compared with 08:40 volume on earlier days, never with a full session.
-- **Missing extended-hours volume** (Yahoo sometimes reports zero) is treated as unknown, not as
-  quiet: the volume component is left out and the score re-normalised.
+- **Same-time volume baseline.** Pre-market volume builds through the morning, so 08:30 volume is
+  compared with 08:30 volume on earlier days, never with a full session.
+- **Pre-market data from Alpaca, not Yahoo.** Yahoo reports zero volume for every extended-hours
+  bar, so pre-market volume cannot be measured from it. Pre-market bars therefore come from
+  Alpaca's SIP feed, which consolidates trades from every U.S. exchange, pre-market included. The
+  free plan withholds the latest 15 minutes, which is why the snapshot is scored at 08:30 and the
+  job runs at 08:55. Without Alpaca keys the monitor falls back to Yahoo prices, leaves the volume
+  component out and re-normalises the score (coverage 70%); each report states which source it used.
 
 ### Evaluation
 
@@ -152,6 +157,7 @@ monitor/
   evaluation.py    forward returns, IC, block bootstrap, baselines, walk-forward model
   report.py        daily text and CSV report
   intraday.py      extended-hours bars in New York time; synthetic sessions for tests
+  alpaca.py        Alpaca Market Data v2 client: paging, rate-limit retry, SIP -> IEX fallback
   premarket.py     session splitting, pre-market features and score
   premarket_eval.py  pre-market score vs same-day open-to-close return
 market_monitor.py        end-of-day CLI
@@ -160,8 +166,9 @@ scripts/
   update_dashboard.py    badges + docs/dashboard.md from the latest CSV
   evaluate_signal.py     docs/evaluation.md, figures, README results block
   evaluate_premarket.py  docs/premarket_evaluation.md, figure, README results block
-tests/                   42 tests: indicator math, scoring rules, no-look-ahead (daily and
-                         pre-market), session boundaries, daylight saving, evaluation, CLI
+tests/                   56 tests: indicator math, scoring rules, no-look-ahead (daily and
+                         pre-market), session boundaries, daylight saving, Alpaca client
+                         (mocked HTTP), evaluation, CLI
 .github/workflows/       end-of-day monitor, pre-market monitor, weekly evaluation, tests
 ```
 
@@ -181,6 +188,17 @@ python scripts/evaluate_premarket.py     # pre-market evaluation -> docs/premark
 pytest -q                                # test suite (runs offline)
 ```
 
+### Pre-market data (Alpaca, free)
+
+1. Create a free account at [alpaca.markets](https://alpaca.markets); a paper-trading account is
+   enough, and no money is involved.
+2. In the Alpaca dashboard, generate an API key and copy the **Key ID** and **Secret Key**.
+3. In this GitHub repo: **Settings → Secrets and variables → Actions → New repository secret**,
+   add `ALPACA_API_KEY_ID` and `ALPACA_API_SECRET_KEY`.
+
+Locally, set the same two environment variables. Keys are read only from the environment and are
+never written to reports or logs.
+
 Useful options: `--tickers NVDA AMD AVGO` to change the universe, `--horizon 10` for the
 evaluation, and `--source synthetic` to try everything without a network connection
 (synthetic results are labelled and never published to the dashboard or README).
@@ -192,11 +210,10 @@ evaluation, and `--source synthetic` to try everything without a network connect
   Adding names from other sectors (banks, healthcare, consumer) is the most direct way to test that.
 - SPCX and SKHY only listed in mid-2026, so they contribute few observations to the evaluation
   and have no 200-day trend input yet (see *coverage* above).
-- Pre-market history is limited to about two years of hourly bars, and extended-hours volume from
-  Yahoo can be incomplete. The live snapshot uses 5-minute bars at ~08:40 ET; the evaluation uses
-  hourly bars through 09:00 ET.
-- Yahoo Finance data via `yfinance` is free but unofficial; a licensed feed would be needed for
-  production use.
+- Pre-market history covers about three years (Alpaca's free plan), and pre-market trading is
+  thin, so a few large trades can move a stock's pre-market RVOL.
+- Daily prices come from Yahoo Finance via `yfinance`, which is free but unofficial; a licensed
+  feed would be needed for production use.
 - No transaction costs, slippage or survivorship-bias control.
 - The score is descriptive. A positive IC would be a statistical association, not a trading
   strategy, and public OHLCV data cannot reveal *who* is buying.

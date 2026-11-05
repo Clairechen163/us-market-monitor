@@ -73,6 +73,14 @@ PREMARKET_WEIGHTS: dict[str, float] = {
     "context": 25.0,  # prior close's end-of-day score (trend, momentum, ...)
 }
 
+# Fixed snapshot time for the pre-market score (ET). Live runs and the
+# historical evaluation both use bars that closed by this time, so the
+# evaluation measures exactly what the daily snapshot shows.
+PREMARKET_SNAPSHOT_TIME: str = "08:30"
+
+# Years of 30-minute history requested from Alpaca for the evaluation.
+PREMARKET_EVAL_YEARS: int = 3
+
 # Sessions used to build the "normal" pre-market volume baseline.
 PREMARKET_RVOL_WINDOW: int = 10
 

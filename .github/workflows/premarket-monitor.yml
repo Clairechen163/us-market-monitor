@@ -2,9 +2,11 @@ name: Pre-market Monitor
 
 on:
   schedule:
-    # Two triggers so one lands at ~08:40 ET in both summer (EDT, 12:40 UTC)
-    # and winter (EST, 13:40 UTC). The other is skipped by --window below.
-    - cron: "40 12,13 * * 1-5"
+    # Two triggers so one lands at ~08:55 ET in both summer (EDT, 12:55 UTC)
+    # and winter (EST, 13:55 UTC); the other is skipped by --window below.
+    # The snapshot scores bars through 08:30 ET; running at 08:55 leaves room
+    # for the free Alpaca plan's 15-minute delay.
+    - cron: "55 12,13 * * 1-5"
   workflow_dispatch:
 
 permissions:
@@ -29,6 +31,10 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Pre-market snapshot
+        env:
+          # Optional: with these secrets set, pre-market data comes from Alpaca (includes volume).
+          ALPACA_API_KEY_ID: ${{ secrets.ALPACA_API_KEY_ID }}
+          ALPACA_API_SECRET_KEY: ${{ secrets.ALPACA_API_SECRET_KEY }}
         run: python premarket_monitor.py ${{ github.event_name == 'schedule' && '--window 08:00-09:30' || '' }}
 
       - name: Commit results
