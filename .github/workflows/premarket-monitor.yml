@@ -4,8 +4,9 @@ on:
   schedule:
     # Two triggers so one lands at ~08:55 ET in both summer (EDT, 12:55 UTC)
     # and winter (EST, 13:55 UTC); the other is skipped by --window below.
-    # The snapshot scores bars through 08:30 ET; running at 08:55 leaves room
-    # for the free Alpaca plan's 15-minute delay.
+    # The snapshot scores bars through 08:30 ET; with the free Alpaca plan's
+    # 15-minute delay those bars are complete from 08:46, hence the window.
+    # (A late-starting 07:55 trigger used to slip in at 08:00 with partial data.)
     - cron: "55 12,13 * * 1-5"
   workflow_dispatch:
 
@@ -35,7 +36,7 @@ jobs:
           # Optional: with these secrets set, pre-market data comes from Alpaca (includes volume).
           ALPACA_API_KEY_ID: ${{ secrets.ALPACA_API_KEY_ID }}
           ALPACA_API_SECRET_KEY: ${{ secrets.ALPACA_API_SECRET_KEY }}
-        run: python premarket_monitor.py ${{ github.event_name == 'schedule' && '--window 08:00-09:30' || '' }}
+        run: python premarket_monitor.py ${{ github.event_name == 'schedule' && '--window 08:46-09:45' || '' }}
 
       - name: Commit results
         run: |

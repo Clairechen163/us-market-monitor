@@ -284,13 +284,38 @@ each training cut-off from the test period so overlapping targets cannot leak.
 """
 
 
-def update_readme(block: str) -> None:
+def replace_block(text: str, tag: str, block: str) -> str:
+    """Replace the text between <!-- TAG:START --> and <!-- TAG:END --> markers."""
+    pattern = re.compile(rf"(<!-- {re.escape(tag)}:START -->\n).*?(\n<!-- {re.escape(tag)}:END -->)", re.S)
+    return pattern.sub(lambda m: m.group(1) + block + m.group(2), text)
+
+
+def finding_phrase(est: float, lo: float, hi: float) -> str:
+    """Plain-language verdict that follows the confidence interval, so the
+    README headline can never claim more (or less) than the data show."""
+    if not (np.isfinite(lo) and np.isfinite(hi)):
+        return "not enough data yet for a firm conclusion"
+    if lo > 0:
+        return "a small but statistically reliable positive association"
+    if hi < 0:
+        return "a small but statistically reliable negative association (strong readings were followed by underperformance)"
+    return "no evidence of predictive power"
+
+
+def finding_line(res: EvaluationResult) -> str:
+    est, lo, hi = res.ic
+    null = res.baselines.loc["Shuffled score (null)", "ic"]
+    return (f"- **End-of-day signal: {finding_phrase(est, lo, hi)}.** The rank IC between the score and "
+            f"the next {res.horizon} days' return over SPY is {num(est)} (95% CI {num(lo)} to {num(hi)}) "
+            f"across {res.n_obs:,} stock-days; a randomly shuffled score gets {num(null)}.")
+
+
+def update_readme(block: str, finding: str | None = None) -> None:
     readme = ROOT / "README.md"
-    text = readme.read_text(encoding="utf-8")
-    pattern = re.compile(r"(<!-- EVAL:START -->\n).*?(\n<!-- EVAL:END -->)", re.S)
-    if pattern.search(text):
-        readme.write_text(pattern.sub(lambda m: m.group(1) + block + m.group(2), text),
-                          encoding="utf-8")
+    text = replace_block(readme.read_text(encoding="utf-8"), "EVAL", block)
+    if finding:
+        text = replace_block(text, "FINDINGS-EOD", finding)
+    readme.write_text(text, encoding="utf-8")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -328,7 +353,7 @@ def main(argv: list[str] | None = None) -> int:
 
     # Never let a synthetic demo overwrite the published README results.
     if args.source == "yahoo" and args.outdir.resolve() == (ROOT / "docs").resolve():
-        update_readme(summary_block(res, args.source))
+        update_readme(summary_block(res, args.source), finding_line(res))
 
     print(summary_block(res, args.source))
     return 0

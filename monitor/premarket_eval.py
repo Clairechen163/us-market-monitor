@@ -1,6 +1,6 @@
 """Does the pre-market score predict the regular session?
 
-Question: is a higher pre-market score at clock time C (default 09:00 ET)
+Question: is a higher pre-market score at clock time C (default 08:30 ET)
 followed by a better open-to-close return relative to SPY that same day?
 
 The target starts at the 09:30 open, after every input is known, so there is
@@ -21,9 +21,11 @@ from datetime import time
 import numpy as np
 import pandas as pd
 
-from .config import BENCHMARK, INSUFFICIENT_LABEL, MAX_PLAUSIBLE_GAP
+from .config import BENCHMARK, INSUFFICIENT_LABEL, MAX_PLAUSIBLE_GAP, PREMARKET_SNAPSHOT_TIME
 from .evaluation import _label_table, _spread, block_bootstrap, spearman_ic
 from .premarket import COMPONENTS, premarket_features, score_premarket
+
+SNAPSHOT = time(*map(int, PREMARKET_SNAPSHOT_TIME.split(":")))
 
 
 @dataclass
@@ -43,7 +45,7 @@ class PremarketResult:
     ablation: pd.DataFrame
 
 
-def premarket_eval_frame(intraday, daily, tickers, benchmark=BENCHMARK, cutoff=time(9, 0)):
+def premarket_eval_frame(intraday, daily, tickers, benchmark=BENCHMARK, cutoff=SNAPSHOT):
     feats = premarket_features(intraday, daily, tickers, benchmark, cutoff=cutoff)
     feats = feats.join(score_premarket(feats))
     usable = feats["pm_label"].ne(INSUFFICIENT_LABEL) & feats["target"].notna() & feats["pm_score"].notna()
@@ -53,7 +55,7 @@ def premarket_eval_frame(intraday, daily, tickers, benchmark=BENCHMARK, cutoff=t
     return frame, int((usable & implausible).sum()), feats
 
 
-def evaluate_premarket(intraday, daily, tickers, benchmark=BENCHMARK, cutoff=time(9, 0),
+def evaluate_premarket(intraday, daily, tickers, benchmark=BENCHMARK, cutoff=SNAPSHOT,
                        reps: int = 1000, seed: int = 0) -> PremarketResult:
     frame, dropped, feats = premarket_eval_frame(intraday, daily, tickers, benchmark, cutoff)
     if len(frame) < 100:

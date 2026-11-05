@@ -15,7 +15,6 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import re
 import sys
 from datetime import date
 from pathlib import Path
@@ -31,7 +30,9 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 sys.path[:0] = [str(ROOT), str(HERE)]
 
-from evaluate_signal import INK, MUTED, SURFACE, _style, ci, label_bars, md_table, num, pct  # noqa: E402
+from evaluate_signal import (  # noqa: E402
+    INK, MUTED, SURFACE, _style, ci, finding_phrase, label_bars, md_table, num, pct, replace_block,
+)
 from monitor import alpaca, config  # noqa: E402
 from monitor import intraday as intr  # noqa: E402
 from monitor.data import load as load_daily, load_cache as load_daily_cache  # noqa: E402
@@ -164,12 +165,25 @@ A negative *change* means removing the component lowers the IC, i.e. it was cont
 """
 
 
-def update_readme(block: str) -> None:
+def finding_line(res: PremarketResult) -> str:
+    est, lo, hi = res.ic
+    b = res.baselines["ic"]
+    parts = [f"the pre-market gap has an IC of {num(b['Gap vs SPY only'])} (negative would mean gaps fade)"]
+    if np.isfinite(b["Pre-market RVOL only"]):
+        parts.append(f"pre-market volume {num(b['Pre-market RVOL only'])}")
+    return (f"- **Pre-market signal: {finding_phrase(est, lo, hi)}.** The rank IC between the "
+            f"{res.cutoff.strftime('%H:%M')} ET pre-market score and the same day's open-to-close return "
+            f"over SPY is {num(est)} (95% CI {num(lo)} to {num(hi)}) across {res.n_obs:,} stock-days; "
+            f"a randomly shuffled score gets {num(b['Shuffled score (null)'])}. On their own, "
+            + " and ".join(parts) + ".")
+
+
+def update_readme(block: str, finding: str | None = None) -> None:
     readme = ROOT / "README.md"
-    text = readme.read_text(encoding="utf-8")
-    pattern = re.compile(r"(<!-- PREMARKET-EVAL:START -->\n).*?(\n<!-- PREMARKET-EVAL:END -->)", re.S)
-    if pattern.search(text):
-        readme.write_text(pattern.sub(lambda m: m.group(1) + block + m.group(2), text), encoding="utf-8")
+    text = replace_block(readme.read_text(encoding="utf-8"), "PREMARKET-EVAL", block)
+    if finding:
+        text = replace_block(text, "FINDINGS-PM", finding)
+    readme.write_text(text, encoding="utf-8")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -235,7 +249,7 @@ def main(argv: list[str] | None = None) -> int:
     figure_labels(res, args.outdir / "figures" / "premarket_label_returns.png")
     (args.outdir / "premarket_evaluation.md").write_text(evaluation_markdown(res, source), encoding="utf-8")
     if source != "synthetic" and args.outdir.resolve() == (ROOT / "docs").resolve():
-        update_readme(summary_block(res, source))
+        update_readme(summary_block(res, source), finding_line(res))
     print(summary_block(res, source))
     return 0
 

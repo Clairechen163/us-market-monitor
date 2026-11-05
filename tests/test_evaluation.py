@@ -46,3 +46,22 @@ def test_evaluate_end_to_end(synthetic):
     assert -1 <= res.ic[0] <= 1
     assert set(res.ablation.index) == {"trend", "volume", "breakout", "momentum", "relative_strength"}
     assert res.walk_forward and 0 <= res.walk_forward["auc_learned"] <= 1
+
+
+def test_readme_finding_wording_follows_the_confidence_interval():
+    import importlib.util
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location("evaluate_signal", root / "scripts" / "evaluate_signal.py")
+    es = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(es)
+    assert es.finding_phrase(-0.01, -0.06, 0.04) == "no evidence of predictive power"
+    assert es.finding_phrase(0.03, 0.01, 0.05).startswith("a small but statistically reliable positive")
+    assert es.finding_phrase(-0.03, -0.05, -0.01).startswith("a small but statistically reliable negative")
+    assert es.finding_phrase(0.0, np.nan, np.nan).startswith("not enough data")
+
+    text = "intro\n<!-- FINDINGS-EOD:START -->\nold line\n<!-- FINDINGS-EOD:END -->\nrest\n"
+    new = es.replace_block(text, "FINDINGS-EOD", "new line")
+    assert new == "intro\n<!-- FINDINGS-EOD:START -->\nnew line\n<!-- FINDINGS-EOD:END -->\nrest\n"
+    assert es.replace_block("no markers here", "FINDINGS-EOD", "x") == "no markers here"

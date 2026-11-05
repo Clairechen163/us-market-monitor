@@ -16,6 +16,20 @@
 
 **[End-of-day dashboard →](docs/dashboard.md)** · **[Pre-market snapshot →](docs/premarket.md)** · **[End-of-day evaluation →](docs/evaluation.md)** · **[Pre-market evaluation →](docs/premarket_evaluation.md)**
 
+## Key findings
+
+<!-- FINDINGS-EOD:START -->
+- **End-of-day signal: no evidence of predictive power.** The rank IC between the score and the next 5 days' return over SPY is -0.008 (95% CI -0.060 to +0.038) across 10,601 stock-days; a randomly shuffled score gets +0.003.
+<!-- FINDINGS-EOD:END -->
+<!-- FINDINGS-PM:START -->
+- **Pre-market signal: no evidence of predictive power.** The rank IC between the 08:30 ET pre-market score and the same day's open-to-close return over SPY is -0.025 (95% CI -0.056 to +0.001) across 6,596 stock-days; a randomly shuffled score gets -0.018. On their own, the pre-market gap has an IC of -0.010 (negative would mean gaps fade) and pre-market volume +0.005.
+<!-- FINDINGS-PM:END -->
+- **How it was tested:** a common trading belief, that moves confirmed by volume keep going, is
+  turned into a transparent score and tested on end-of-day and pre-market data with
+  time-series-aware methods: a block bootstrap, look-ahead tests, baselines, ablations,
+  walk-forward validation and a shuffled control. The figures above refresh automatically
+  after each weekly evaluation; details are under [Results](#results).
+
 ---
 
 ## The question
@@ -166,7 +180,7 @@ scripts/
   update_dashboard.py    badges + docs/dashboard.md from the latest CSV
   evaluate_signal.py     docs/evaluation.md, figures, README results block
   evaluate_premarket.py  docs/premarket_evaluation.md, figure, README results block
-tests/                   56 tests: indicator math, scoring rules, no-look-ahead (daily and
+tests/                   58 tests: indicator math, scoring rules, no-look-ahead (daily and
                          pre-market), session boundaries, daylight saving, Alpaca client
                          (mocked HTTP), evaluation, CLI
 .github/workflows/       end-of-day monitor, pre-market monitor, weekly evaluation, tests

@@ -187,3 +187,11 @@ def test_premarket_evaluation_reads_alpaca_history(tmp_path, creds, monkeypatch)
     assert "Alpaca SIP feed" in page and "08:30 ET" in page
     # Second run reuses the cache instead of downloading again.
     assert mod.main(args) == 0 and calls == ["30Min"]
+
+
+def test_scheduled_window_skips_a_late_early_trigger(tmp_path):
+    # The 07:55 ET winter trigger starting late (08:01) must not publish a partial snapshot.
+    out = tmp_path / "pm"
+    assert premarket_monitor.main(["--source", "synthetic", "--asof", "2026-11-05 08:01",
+                                   "--window", "08:46-09:45", "--outdir", str(out)]) == 0
+    assert not out.exists()
