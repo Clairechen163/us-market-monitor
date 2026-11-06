@@ -7,13 +7,13 @@ close, relative to SPY over the same hours?**
 
 ## Summary
 
-*Last evaluated 2026-11-05 on 6,596 ticker-days (2023-11-07 to 2026-11-04), pre-market bars through 08:30 ET, data: alpaca-sip.*
+*Last evaluated 2026-11-06 on 6,607 ticker-days (2023-11-07 to 2026-11-05), pre-market bars through 08:30 ET, data: alpaca-sip.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
-| Rank IC: pre-market score vs open-to-close return over SPY | -0.025 | [-0.056, +0.001] |
-| Mean return gap: POSITIVE-or-better minus WEAK | +0.06% | [-0.14%, +0.27%] |
-| Rank IC: gap vs SPY alone (negative = gaps fade) | -0.010 | |
+| Rank IC: pre-market score vs open-to-close return over SPY | -0.022 | [-0.056, +0.003] |
+| Mean return gap: POSITIVE-or-better minus WEAK | +0.07% | [-0.14%, +0.27%] |
+| Rank IC: gap vs SPY alone (negative = gaps fade) | -0.007 | |
 
 The 95% interval includes zero, so the data do not show that the pre-market score predicts the regular session. It describes the pre-market well; it is not a forecast.
 
@@ -21,7 +21,7 @@ The 95% interval includes zero, so the data do not show that the pre-market scor
 ## Setup
 
 - **Universe:** ALAB, AMD, AMZN, ETN, FSLR, GOOG, MRVL, NVDA, SKHY, SPCX, TSLA; benchmark SPY.
-- **Sample:** 751 trading days, 6,596 ticker-days with a full pre-market score.
+- **Sample:** 752 trading days, 6,607 ticker-days with a full pre-market score.
   0 ticker-days with a gap larger than 40% were dropped as
   likely data errors or corporate actions.
 - **Data:** Alpaca SIP feed (trades from every U.S. exchange), 30-minute bars over about 3 years, split-adjusted. Includes pre-market volume.
@@ -38,21 +38,21 @@ The 95% interval includes zero, so the data do not show that the pre-market scor
 
 | label | n | mean | ci_lo | ci_hi | median | hit_rate |
 |---|---:|---:|---:|---:|---:|---:|
-| STRONG PRICE/VOLUME | 199 | -0.17% | -0.45% | +0.13% | -0.25% | 45.7% |
-| POSITIVE | 411 | +0.19% | +0.02% | +0.45% | +0.10% | 52.6% |
+| STRONG PRICE/VOLUME | 200 | -0.17% | -0.47% | +0.12% | -0.19% | 46.0% |
+| POSITIVE | 412 | +0.19% | +0.01% | +0.45% | +0.11% | 52.7% |
 | WATCH | 1,050 | -0.05% | -0.23% | +0.08% | -0.03% | 48.7% |
-| WEAK | 4,936 | +0.01% | -0.08% | +0.11% | -0.02% | 49.5% |
+| WEAK | 4,945 | +0.01% | -0.08% | +0.11% | -0.03% | 49.5% |
 
 ## Baselines
 
 | signal | ic |
 |---|---:|
-| Pre-market score (this model) | -0.025 |
-| Gap vs SPY only | -0.010 |
-| Gap / ATR only | -0.008 |
-| Pre-market RVOL only | +0.005 |
-| Prior close end-of-day score only | -0.030 |
-| Shuffled score (null) | -0.018 |
+| Pre-market score (this model) | -0.022 |
+| Gap vs SPY only | -0.007 |
+| Gap / ATR only | -0.005 |
+| Pre-market RVOL only | +0.004 |
+| Prior close end-of-day score only | -0.028 |
+| Shuffled score (null) | -0.003 |
 
 The gap rows answer a classic market-microstructure question directly: a negative IC means
 pre-market moves have tended to reverse after the open (gap fade); a positive IC means they
@@ -62,10 +62,10 @@ have tended to extend (gap continuation).
 
 | removed | ic | change |
 |---|---:|---:|
-| gap | -0.022 | +0.003 |
-| volume | -0.024 | +0.002 |
-| level | -0.028 | -0.003 |
-| context | -0.019 | +0.006 |
+| gap | -0.020 | +0.003 |
+| volume | -0.021 | +0.002 |
+| level | -0.025 | -0.003 |
+| context | -0.016 | +0.006 |
 
 A negative *change* means removing the component lowers the IC, i.e. it was contributing.
 
@@ -73,17 +73,17 @@ A negative *change* means removing the component lowers the IC, i.e. it was cont
 
 | ticker | n | ic | mean_gap_abs |
 |---|---:|---:|---:|
-| ALAB | 640 | -0.013 | 2.02% |
-| AMD | 751 | +0.011 | 1.49% |
-| AMZN | 751 | -0.019 | 0.79% |
-| ETN | 554 | -0.070 | 1.05% |
-| FSLR | 740 | -0.048 | 1.09% |
-| GOOG | 751 | -0.027 | 0.78% |
-| MRVL | 751 | -0.049 | 1.77% |
-| NVDA | 751 | -0.067 | 1.14% |
-| SKHY | 69 | +0.005 | 2.84% |
-| SPCX | 87 | +0.050 | 1.41% |
-| TSLA | 751 | -0.027 | 1.26% |
+| ALAB | 641 | -0.008 | 2.03% |
+| AMD | 752 | +0.015 | 1.50% |
+| AMZN | 752 | -0.018 | 0.80% |
+| ETN | 555 | -0.071 | 1.05% |
+| FSLR | 741 | -0.046 | 1.09% |
+| GOOG | 752 | -0.027 | 0.78% |
+| MRVL | 752 | -0.045 | 1.77% |
+| NVDA | 752 | -0.063 | 1.15% |
+| SKHY | 70 | +0.038 | 2.89% |
+| SPCX | 88 | +0.063 | 1.43% |
+| TSLA | 752 | -0.024 | 1.26% |
 
 ## Limitations
 
