@@ -7,6 +7,11 @@ FSLR   score  63.4  [POSITIVE]  (coverage 100%)
    RVOL20 2.56  RSI14 63.8  ATR14 +5.2%  vs prior 20d high -8.9%
    components: trend 8.0/25  volume 25.0/25  breakout 1.3/20  momentum 14.1/15  relative_strength 15.0/15
 
+IBM    score  57.7  [WATCH]  (coverage 100%)
+   close 247.11  1d -2.8%  5d -4.3%  20d +9.0%  5d vs SPY +0.4%
+   RVOL20 0.98  RSI14 53.8  ATR14 +3.1%  vs prior 20d high -4.9%
+   components: trend 25.0/25  volume 2.4/25  breakout 6.1/20  momentum 11.9/15  relative_strength 12.2/15
+
 AMZN   score  56.8  [WATCH]  (coverage 100%)
    close 260.21  1d -2.2%  5d +6.7%  20d +2.4%  5d vs SPY +11.5%
    RVOL20 1.87  RSI14 55.0  ATR14 +3.6%  vs prior 20d high -4.2%
@@ -37,6 +42,16 @@ SPCX   score   6.7  [WEAK]  (coverage 91%)
    RVOL20 1.64  RSI14 33.1  ATR14 +6.5%  vs prior 20d high -26.2%
    components: trend 0.0/25  volume 5.0/25  breakout 0.0/20  momentum 1.1/15  relative_strength 0.0/15
 
+MRVL   score   6.2  [WEAK]  (coverage 100%)
+   close 133.55  1d -16.4%  5d -38.8%  20d -51.4%  5d vs SPY -34.1%
+   RVOL20 2.54  RSI14 22.6  ATR14 +13.8%  vs prior 20d high -52.9%
+   components: trend 0.0/25  volume 6.2/25  breakout 0.0/20  momentum 0.0/15  relative_strength 0.0/15
+
+NVDA   score   6.2  [WEAK]  (coverage 100%)
+   close 181.60  1d -9.3%  5d -15.0%  20d -21.2%  5d vs SPY -10.3%
+   RVOL20 2.93  RSI14 25.4  ATR14 +4.0%  vs prior 20d high -23.4%
+   components: trend 0.0/25  volume 6.2/25  breakout 0.0/20  momentum 0.0/15  relative_strength 0.0/15
+
 AMD    score   6.2  [WEAK]  (coverage 100%)
    close 404.40  1d -17.3%  5d -28.6%  20d -34.8%  5d vs SPY -23.9%
    RVOL20 2.99  RSI14 29.7  ATR14 +8.7%  vs prior 20d high -37.2%
@@ -45,14 +60,4 @@ AMD    score   6.2  [WEAK]  (coverage 100%)
 ALAB   score   6.2  [WEAK]  (coverage 100%)
    close 179.47  1d -19.6%  5d -38.2%  20d -48.3%  5d vs SPY -33.5%
    RVOL20 2.73  RSI14 25.1  ATR14 +14.2%  vs prior 20d high -53.2%
-   components: trend 0.0/25  volume 6.2/25  breakout 0.0/20  momentum 0.0/15  relative_strength 0.0/15
-
-NVDA   score   6.2  [WEAK]  (coverage 100%)
-   close 181.60  1d -9.3%  5d -15.0%  20d -21.2%  5d vs SPY -10.3%
-   RVOL20 2.93  RSI14 25.4  ATR14 +4.0%  vs prior 20d high -23.4%
-   components: trend 0.0/25  volume 6.2/25  breakout 0.0/20  momentum 0.0/15  relative_strength 0.0/15
-
-MRVL   score   6.2  [WEAK]  (coverage 100%)
-   close 133.55  1d -16.4%  5d -38.8%  20d -51.4%  5d vs SPY -34.1%
-   RVOL20 2.54  RSI14 22.6  ATR14 +13.8%  vs prior 20d high -52.9%
    components: trend 0.0/25  volume 6.2/25  breakout 0.0/20  momentum 0.0/15  relative_strength 0.0/15
