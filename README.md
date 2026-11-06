@@ -5,6 +5,7 @@
 [![Daily Market Monitor](https://github.com/Clairechen163/us-market-monitor/actions/workflows/daily-market-monitor.yml/badge.svg)](https://github.com/Clairechen163/us-market-monitor/actions/workflows/daily-market-monitor.yml)
 [![Pre-market Monitor](https://github.com/Clairechen163/us-market-monitor/actions/workflows/premarket-monitor.yml/badge.svg)](https://github.com/Clairechen163/us-market-monitor/actions/workflows/premarket-monitor.yml)
 [![Tests](https://github.com/Clairechen163/us-market-monitor/actions/workflows/tests.yml/badge.svg)](https://github.com/Clairechen163/us-market-monitor/actions/workflows/tests.yml)
+[![Open the live dashboard](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://us-market-monitor.streamlit.app/)
 
 | ALAB | AMD | NVDA | MRVL | GOOG |
 |---|---|---|---|---|
@@ -18,7 +19,7 @@
 |---|---|---|---|---|
 | ![GEV](docs/badges/GEV.svg) | ![CEG](docs/badges/CEG.svg) | ![VST](docs/badges/VST.svg) | ![TSLA](docs/badges/TSLA.svg) | ![SPCX](docs/badges/SPCX.svg) |
 
-**[Live dashboard →](#live-dashboard)** · **[End-of-day dashboard →](docs/dashboard.md)** · **[Pre-market snapshot →](docs/premarket.md)** · **[End-of-day evaluation →](docs/evaluation.md)** · **[Pre-market evaluation →](docs/premarket_evaluation.md)**
+**[Live dashboard →](https://us-market-monitor.streamlit.app/)** · **[End-of-day dashboard →](docs/dashboard.md)** · **[Pre-market snapshot →](docs/premarket.md)** · **[End-of-day evaluation →](docs/evaluation.md)** · **[Pre-market evaluation →](docs/premarket_evaluation.md)**
 
 ## Key findings
 
@@ -222,8 +223,8 @@ never written to reports or logs.
 
 ### Live dashboard
 
-A Streamlit app recomputes the scores from live data every time it is opened, and refreshes
-every minute:
+**Live at [us-market-monitor.streamlit.app](https://us-market-monitor.streamlit.app/).** The app recomputes the scores
+from live data every time it is opened, and refreshes every minute:
 
 - **04:00–09:30 ET:** live pre-market score.
 - **09:30–16:00 ET:** the end-of-day score as if the session ended now, with volume since the
@@ -234,8 +235,8 @@ Prices are real-time trades from the IEX exchange (Alpaca's free plan); volume c
 exchange and runs about 15 minutes behind. Each view states the time of its latest price and
 volume.
 
-Run it locally with `streamlit run app/streamlit_app.py` (with the two Alpaca variables set),
-or deploy it free on [Streamlit Community Cloud](https://share.streamlit.io): **Create app →**
+To run your own copy: `streamlit run app/streamlit_app.py` locally (with the two Alpaca variables
+set), or deploy it free on [Streamlit Community Cloud](https://share.streamlit.io): **Create app →**
 this repo, branch `main`, main file `app/streamlit_app.py` → **Advanced settings → Secrets**:
 
 ```toml
