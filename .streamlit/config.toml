@@ -1,0 +1,3 @@
+[theme]
+# Neutral blue accent: the default red would make every score bar read as "bad".
+primaryColor = "#2a78d6"

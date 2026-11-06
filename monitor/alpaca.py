@@ -26,6 +26,7 @@ from .data import trim_to_listing
 from .intraday import NY
 
 BARS_URL = "https://data.alpaca.markets/v2/stocks/bars"
+SNAPSHOTS_URL = "https://data.alpaca.markets/v2/stocks/snapshots"
 KEY_ENV, SECRET_ENV = "ALPACA_API_KEY_ID", "ALPACA_API_SECRET_KEY"
 # Free plan: the most recent 15 minutes of SIP data are not available.
 SIP_DELAY = pd.Timedelta(minutes=16)
@@ -43,9 +44,9 @@ def _rfc3339(ts: pd.Timestamp) -> str:
     return pd.Timestamp(ts).tz_convert("UTC").strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def _get(session, params: dict, headers: dict, max_retries: int = 4) -> dict:
+def _get(session, params: dict, headers: dict, max_retries: int = 4, url: str = BARS_URL) -> dict:
     for attempt in range(max_retries):
-        r = session.get(BARS_URL, params=params, headers=headers, timeout=60)
+        r = session.get(url, params=params, headers=headers, timeout=60)
         if r.status_code == 429:  # rate limited: back off and try again
             _time.sleep(float(r.headers.get("Retry-After", 2 ** attempt)))
             continue
@@ -90,6 +91,48 @@ def _fetch(symbols, start, end, timeframe, feed, adjustment, session, headers) -
     return out
 
 
+def _session_and_headers(session):
+    if not have_credentials():
+        raise AlpacaError(f"set {KEY_ENV} and {SECRET_ENV} to use Alpaca data")
+    if session is None:
+        import requests
+
+        session = requests.Session()
+    return session, {"APCA-API-KEY-ID": os.environ[KEY_ENV], "APCA-API-SECRET-KEY": os.environ[SECRET_ENV]}
+
+
+def load_alpaca_daily(symbols: list[str], start: pd.Timestamp, end: pd.Timestamp,
+                      session=None) -> tuple[dict[str, pd.DataFrame], str]:
+    """Split-adjusted daily bars indexed by (naive) New York trading date."""
+    data, feed = load_alpaca_intraday(symbols, start, end, timeframe="1Day", session=session)
+    out = {}
+    for sym, frame in data.items():
+        frame = frame.copy()
+        frame.index = frame.index.tz_convert(NY).tz_localize(None).normalize().as_unit("ns")
+        out[sym] = frame[~frame.index.duplicated(keep="last")]
+    return out, feed
+
+
+def load_latest_trades(symbols: list[str], feed: str = "iex", session=None) -> dict[str, dict]:
+    """Latest trade per symbol from the snapshots endpoint.
+
+    The free plan serves this in real time for the IEX feed. Returns
+    {symbol: {"price": float, "time": Timestamp (New York)}}; symbols with no
+    trade are omitted.
+    """
+    session, headers = _session_and_headers(session)
+    payload = _get(session, {"symbols": ",".join(symbols), "feed": feed}, headers, url=SNAPSHOTS_URL)
+    payload = payload.get("snapshots", payload)  # tolerate a wrapped response
+    out = {}
+    for sym, snap in payload.items():
+        trade = (snap or {}).get("latestTrade") or {}
+        if trade.get("p") is None or trade.get("t") is None:
+            continue
+        out[sym] = {"price": float(trade["p"]),
+                    "time": pd.Timestamp(trade["t"]).tz_convert(NY)}
+    return out
+
+
 def load_alpaca_intraday(
     symbols: list[str],
     start: pd.Timestamp,
@@ -104,13 +147,7 @@ def load_alpaca_intraday(
     Returns (data, feed_used). Prices are split-adjusted so they line up with
     Yahoo's split-adjusted daily history used for context.
     """
-    if not have_credentials():
-        raise AlpacaError(f"set {KEY_ENV} and {SECRET_ENV} to use Alpaca data")
-    if session is None:
-        import requests
-
-        session = requests.Session()
-    headers = {"APCA-API-KEY-ID": os.environ[KEY_ENV], "APCA-API-SECRET-KEY": os.environ[SECRET_ENV]}
+    session, headers = _session_and_headers(session)
     try:
         data = _fetch(symbols, start, end, timeframe, feed, adjustment, session, headers)
         used = feed

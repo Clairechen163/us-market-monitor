@@ -18,7 +18,7 @@
 |---|---|---|---|---|
 | ![GEV](docs/badges/GEV.svg) | ![CEG](docs/badges/CEG.svg) | ![VST](docs/badges/VST.svg) | ![TSLA](docs/badges/TSLA.svg) | ![SPCX](docs/badges/SPCX.svg) |
 
-**[End-of-day dashboard →](docs/dashboard.md)** · **[Pre-market snapshot →](docs/premarket.md)** · **[End-of-day evaluation →](docs/evaluation.md)** · **[Pre-market evaluation →](docs/premarket_evaluation.md)**
+**[Live dashboard →](#live-dashboard)** · **[End-of-day dashboard →](docs/dashboard.md)** · **[Pre-market snapshot →](docs/premarket.md)** · **[End-of-day evaluation →](docs/evaluation.md)** · **[Pre-market evaluation →](docs/premarket_evaluation.md)**
 
 ## Key findings
 
@@ -175,18 +175,21 @@ monitor/
   evaluation.py    forward returns, IC, block bootstrap, baselines, walk-forward model
   report.py        daily text and CSV report
   intraday.py      extended-hours bars in New York time; synthetic sessions for tests
-  alpaca.py        Alpaca Market Data v2 client: paging, rate-limit retry, SIP -> IEX fallback
+  alpaca.py        Alpaca Market Data v2 client: bars, real-time latest trades, paging, retries
+  live.py          live scores for the web dashboard (pre-market, intraday, latest close)
   premarket.py     session splitting, pre-market features and score
   premarket_eval.py  pre-market score vs same-day open-to-close return
 market_monitor.py        end-of-day CLI
 premarket_monitor.py     pre-market CLI -> reports/premarket/, docs/premarket.md
+app/streamlit_app.py     live web dashboard (Streamlit)
 scripts/
   update_dashboard.py    badges + docs/dashboard.md from the latest CSV
   evaluate_signal.py     docs/evaluation.md, figures, README results block
   evaluate_premarket.py  docs/premarket_evaluation.md, figure, README results block
-tests/                   58 tests: indicator math, scoring rules, no-look-ahead (daily and
+tests/                   81 tests: indicator math, scoring rules, no-look-ahead (daily and
                          pre-market), session boundaries, daylight saving, Alpaca client
-                         (mocked HTTP), evaluation, CLI
+                         (mocked HTTP), live scores, dashboard in every market phase,
+                         evaluation, CLI
 .github/workflows/       end-of-day monitor, pre-market monitor, weekly evaluation, tests
 ```
 
@@ -216,6 +219,29 @@ pytest -q                                # test suite (runs offline)
 
 Locally, set the same two environment variables. Keys are read only from the environment and are
 never written to reports or logs.
+
+### Live dashboard
+
+A Streamlit app recomputes the scores from live data every time it is opened, and refreshes
+every minute:
+
+- **04:00–09:30 ET:** live pre-market score.
+- **09:30–16:00 ET:** the end-of-day score as if the session ended now, with volume since the
+  open compared with the same window on the previous 20 sessions.
+- **After the close:** the end-of-day score for the latest session.
+
+Prices are real-time trades from the IEX exchange (Alpaca's free plan); volume covers every U.S.
+exchange and runs about 15 minutes behind. Each view states the time of its latest price and
+volume.
+
+Run it locally with `streamlit run app/streamlit_app.py` (with the two Alpaca variables set),
+or deploy it free on [Streamlit Community Cloud](https://share.streamlit.io): **Create app →**
+this repo, branch `main`, main file `app/streamlit_app.py` → **Advanced settings → Secrets**:
+
+```toml
+ALPACA_API_KEY_ID = "your key id"
+ALPACA_API_SECRET_KEY = "your secret key"
+```
 
 Useful options: `--tickers NVDA AMD AVGO` to change the universe, `--horizon 10` for the
 evaluation, and `--source synthetic` to try everything without a network connection
