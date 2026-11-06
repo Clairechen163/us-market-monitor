@@ -1,7 +1,7 @@
 # Pre-market snapshot
 
 **Session:** 2026-11-06 · **Pre-market bars through:** 08:30 ET
-(run at 10:18 ET) · regenerated automatically on weekday mornings before the open.
+(run at 11:04 ET) · regenerated automatically on weekday mornings before the open.
 
 **Data:** Alpaca SIP feed (all U.S. exchanges, including pre-market volume; 15-minute delay).
 
