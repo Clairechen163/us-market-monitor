@@ -60,7 +60,8 @@ def test_pages_symbols_and_converts_utc_to_new_york(creds):
     assert list(nvda.columns) == ["Open", "High", "Low", "Close", "Volume"]
     first, second = session.calls
     assert first["feed"] == "sip" and first["adjustment"] == "split" and first["symbols"] == "NVDA,SPY"
-    assert first["end"] == "2026-11-05T13:39:00Z" and "page_token" not in first
+    # 08:39 ET is rounded down to the last whole 5-minute bar (08:35 ET = 13:35 UTC).
+    assert first["end"] == "2026-11-05T13:35:00Z" and "page_token" not in first
     assert second["page_token"] == "abc"
 
 
@@ -74,12 +75,14 @@ def test_retries_when_rate_limited(creds):
 
 
 def test_falls_back_to_iex_when_sip_not_permitted(creds):
+    refused = {"message": "subscription does not permit querying recent SIP data"}
     session = FakeSession([
-        FakeResponse(403, {"message": "subscription does not permit querying recent SIP data"}),
+        FakeResponse(403, refused),  # SIP up to the requested end
+        FakeResponse(403, refused),  # SIP ending 16 minutes earlier
         FakeResponse(200, {"bars": {"NVDA": [bar("2026-11-05T09:00:00Z", 1.0, 10)]}}),
     ])
     data, feed = alpaca.load_alpaca_intraday(["NVDA"], START, END, session=session)
-    assert feed == "iex" and session.calls[1]["feed"] == "iex"
+    assert feed == "iex" and [c["feed"] for c in session.calls] == ["sip", "sip", "iex"]
 
 
 def test_bad_keys_raise_instead_of_silently_falling_back(creds):
@@ -175,6 +178,7 @@ def test_premarket_evaluation_reads_alpaca_history(tmp_path, creds, monkeypatch)
 
     def fake_alpaca(symbols, start, end, timeframe):
         calls.append(timeframe)
+        assert end == end.normalize(), "evaluation must stop at midnight ET (completed sessions only)"
         return {s: hist[s] for s in symbols}, "sip"
 
     monkeypatch.setattr(mod.alpaca, "load_alpaca_intraday", fake_alpaca)
@@ -195,3 +199,49 @@ def test_scheduled_window_skips_a_late_early_trigger(tmp_path):
     assert premarket_monitor.main(["--source", "synthetic", "--asof", "2026-11-05 08:01",
                                    "--window", "08:46-09:45", "--outdir", str(out)]) == 0
     assert not out.exists()
+
+
+def test_retries_temporary_server_errors(creds):
+    session = FakeSession([FakeResponse(503), FakeResponse(502),
+                           FakeResponse(200, {"bars": {"NVDA": [bar("2026-11-05T09:00:00Z", 1.0, 1)]}})])
+    data, feed = alpaca.load_alpaca_intraday(["NVDA"], START, END, session=session)
+    assert feed == "sip" and len(session.calls) == 3
+
+
+def test_recent_sip_refusal_retries_earlier_before_using_iex(creds):
+    session = FakeSession([
+        FakeResponse(400, {"message": "end is too late for subscription"}),
+        FakeResponse(200, {"bars": {"NVDA": [bar("2026-11-05T09:00:00Z", 1.0, 10)]}}),
+    ])
+    data, feed = alpaca.load_alpaca_intraday(["NVDA"], START, END, session=session)
+    assert feed == "sip" and [c["feed"] for c in session.calls] == ["sip", "sip"]
+    assert session.calls[1]["end"] < session.calls[0]["end"]
+
+
+@pytest.mark.parametrize("timeframe,expected_end", [("5Min", "13:35"), ("30Min", "13:30"), ("1Hour", "13:00")])
+def test_request_end_is_a_whole_bar(creds, timeframe, expected_end):
+    session = FakeSession([FakeResponse(200, {"bars": {}})])
+    alpaca.load_alpaca_intraday(["NVDA"], START, END, timeframe=timeframe, session=session)
+    assert session.calls[0]["end"] == f"2026-11-05T{expected_end}:00Z"
+
+
+def test_premarket_evaluation_never_swaps_in_yahoo_when_alpaca_fails(tmp_path, creds, monkeypatch):
+    import importlib.util
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location("evaluate_premarket_fail", root / "scripts" / "evaluate_premarket.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+
+    def failing(*a, **k):
+        raise alpaca.AlpacaError("HTTP 500: still failing after 4 attempts")
+
+    def no_yahoo(*a, **k):
+        raise AssertionError("must not fall back to Yahoo when Alpaca keys are configured")
+
+    monkeypatch.setattr(mod.alpaca, "load_alpaca_intraday", failing)
+    monkeypatch.setattr(mod.intr, "load_yahoo_intraday", no_yahoo)
+    out = tmp_path / "docs"
+    assert mod.main(["--tickers", "NVDA", "--outdir", str(out), "--cache", str(tmp_path / "c")]) == 1
+    assert not (out / "premarket_evaluation.md").exists()

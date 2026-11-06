@@ -187,7 +187,7 @@ scripts/
   update_dashboard.py    badges + docs/dashboard.md from the latest CSV
   evaluate_signal.py     docs/evaluation.md, figures, README results block
   evaluate_premarket.py  docs/premarket_evaluation.md, figure, README results block
-tests/                   81 tests: indicator math, scoring rules, no-look-ahead (daily and
+tests/                   87 tests: indicator math, scoring rules, no-look-ahead (daily and
                          pre-market), session boundaries, daylight saving, Alpaca client
                          (mocked HTTP), live scores, dashboard in every market phase,
                          evaluation, CLI

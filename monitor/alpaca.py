@@ -17,6 +17,7 @@ the returned ``feed`` says which one was used.
 from __future__ import annotations
 
 import os
+import re
 import time as _time
 
 import pandas as pd
@@ -44,10 +45,13 @@ def _rfc3339(ts: pd.Timestamp) -> str:
     return pd.Timestamp(ts).tz_convert("UTC").strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+RETRY_STATUS = {429, 500, 502, 503, 504}  # rate limits and temporary server errors
+
+
 def _get(session, params: dict, headers: dict, max_retries: int = 4, url: str = BARS_URL) -> dict:
     for attempt in range(max_retries):
         r = session.get(url, params=params, headers=headers, timeout=60)
-        if r.status_code == 429:  # rate limited: back off and try again
+        if r.status_code in RETRY_STATUS:  # back off and try again
             _time.sleep(float(r.headers.get("Retry-After", 2 ** attempt)))
             continue
         if r.status_code != 200:
@@ -57,10 +61,29 @@ def _get(session, params: dict, headers: dict, max_retries: int = 4, url: str = 
                 msg = r.text
             raise AlpacaError(f"HTTP {r.status_code}: {msg}")
         return r.json()
-    raise AlpacaError("rate limited repeatedly; giving up")
+    raise AlpacaError(f"HTTP {r.status_code}: still failing after {max_retries} attempts")
+
+
+def _bar_length(timeframe: str) -> pd.Timedelta | None:
+    """'5Min' -> 5 minutes, '1Hour' -> 1 hour; None for daily and longer bars."""
+    m = re.fullmatch(r"(\d+)(Min|Hour)", timeframe)
+    if not m:
+        return None
+    return pd.Timedelta(minutes=int(m.group(1))) * (60 if m.group(2) == "Hour" else 1)
+
+
+def _recent_sip_refused(e: AlpacaError) -> bool:
+    """Free plans may not query the latest 15 minutes of SIP data."""
+    msg = str(e).lower()
+    return any(f"http {c}" in msg for c in (403, 422)) or "subscription" in msg or "too late" in msg
 
 
 def _fetch(symbols, start, end, timeframe, feed, adjustment, session, headers) -> dict[str, pd.DataFrame]:
+    bar = _bar_length(timeframe)
+    if bar is not None:
+        # Ask only for whole bars: a bar still forming would reach into the
+        # most recent minutes, which the free plan does not serve for SIP.
+        end = pd.Timestamp(end).floor(bar)
     params = {
         "symbols": ",".join(symbols), "timeframe": timeframe,
         "start": _rfc3339(start), "end": _rfc3339(end),
@@ -153,8 +176,15 @@ def load_alpaca_intraday(
         used = feed
     except AlpacaError as e:
         # e.g. 403 "subscription does not permit querying recent SIP data"
-        if not (feed == "sip" and any(f"HTTP {c}" in str(e) for c in (403, 422))):
+        if not (feed == "sip" and _recent_sip_refused(e)):
             raise
-        data = _fetch(symbols, start, end, timeframe, "iex", adjustment, session, headers)
-        used = "iex"
+        try:  # first try full-market data ending a little earlier
+            data = _fetch(symbols, start, pd.Timestamp(end) - SIP_DELAY, timeframe, feed, adjustment,
+                          session, headers)
+            used = feed
+        except AlpacaError as e2:
+            if not _recent_sip_refused(e2):
+                raise
+            data = _fetch(symbols, start, end, timeframe, "iex", adjustment, session, headers)
+            used = "iex"
     return trim_to_listing(data, LISTING_DATES), used

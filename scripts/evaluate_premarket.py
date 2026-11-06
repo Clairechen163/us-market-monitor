@@ -216,18 +216,22 @@ def main(argv: list[str] | None = None) -> int:
             if not args.download and len(cached) == len(symbols) and feed_file.exists():
                 intraday, source = cached, f"alpaca-{feed_file.read_text().strip()}"
             else:
-                now = pd.Timestamp.now(tz=intr.NY)
+                # Completed sessions only: today's session has no close yet, and
+                # stopping at midnight ET avoids the free plan's recent-data limit.
+                today = pd.Timestamp.now(tz=intr.NY).normalize()
                 try:
                     intraday, feed = alpaca.load_alpaca_intraday(
-                        symbols, start=now - pd.DateOffset(years=config.PREMARKET_EVAL_YEARS),
-                        end=now - alpaca.SIP_DELAY, timeframe="30Min")
+                        symbols, start=today - pd.DateOffset(years=config.PREMARKET_EVAL_YEARS),
+                        end=today, timeframe="30Min")
                     source = f"alpaca-{feed}"
                     intr.save_cache(intraday, icache)
                     feed_file.write_text(feed)
                 except alpaca.AlpacaError as e:
-                    if args.source == "alpaca":
-                        raise
-                    print(f"WARNING: Alpaca request failed ({e}); falling back to Yahoo", file=sys.stderr)
+                    # Keys are configured, so published results are Alpaca-based. Never
+                    # replace them silently with Yahoo results, which lack pre-market volume.
+                    print(f"ERROR: Alpaca request failed ({e}). Keeping the previously published "
+                          "pre-market evaluation; rerun later.", file=sys.stderr)
+                    return 1
         if intraday is None:
             source = "yahoo"
             icache = args.cache / "intraday_1h"
