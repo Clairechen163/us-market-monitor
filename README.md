@@ -6,13 +6,17 @@
 [![Pre-market Monitor](https://github.com/Clairechen163/us-market-monitor/actions/workflows/premarket-monitor.yml/badge.svg)](https://github.com/Clairechen163/us-market-monitor/actions/workflows/premarket-monitor.yml)
 [![Tests](https://github.com/Clairechen163/us-market-monitor/actions/workflows/tests.yml/badge.svg)](https://github.com/Clairechen163/us-market-monitor/actions/workflows/tests.yml)
 
-| ALAB | AMD | NVDA | MRVL | GOOG | AMZN |
-|---|---|---|---|---|---|
-| ![ALAB](docs/badges/ALAB.svg) | ![AMD](docs/badges/AMD.svg) | ![NVDA](docs/badges/NVDA.svg) | ![MRVL](docs/badges/MRVL.svg) | ![GOOG](docs/badges/GOOG.svg) | ![AMZN](docs/badges/AMZN.svg) |
+| ALAB | AMD | NVDA | MRVL | GOOG |
+|---|---|---|---|---|
+| ![ALAB](docs/badges/ALAB.svg) | ![AMD](docs/badges/AMD.svg) | ![NVDA](docs/badges/NVDA.svg) | ![MRVL](docs/badges/MRVL.svg) | ![GOOG](docs/badges/GOOG.svg) |
 
-| IBM | FSLR | SKHY | ETN | TSLA | SPCX |
-|---|---|---|---|---|---|
-| ![IBM](docs/badges/IBM.svg) | ![FSLR](docs/badges/FSLR.svg) | ![SKHY](docs/badges/SKHY.svg) | ![ETN](docs/badges/ETN.svg) | ![TSLA](docs/badges/TSLA.svg) | ![SPCX](docs/badges/SPCX.svg) |
+| AMZN | IBM | FSLR | SKHY | ETN |
+|---|---|---|---|---|
+| ![AMZN](docs/badges/AMZN.svg) | ![IBM](docs/badges/IBM.svg) | ![FSLR](docs/badges/FSLR.svg) | ![SKHY](docs/badges/SKHY.svg) | ![ETN](docs/badges/ETN.svg) |
+
+| GEV | CEG | VST | TSLA | SPCX |
+|---|---|---|---|---|
+| ![GEV](docs/badges/GEV.svg) | ![CEG](docs/badges/CEG.svg) | ![VST](docs/badges/VST.svg) | ![TSLA](docs/badges/TSLA.svg) | ![SPCX](docs/badges/SPCX.svg) |
 
 **[End-of-day dashboard →](docs/dashboard.md)** · **[Pre-market snapshot →](docs/premarket.md)** · **[End-of-day evaluation →](docs/evaluation.md)** · **[Pre-market evaluation →](docs/premarket_evaluation.md)**
 
@@ -51,7 +55,7 @@ The project has two halves, each run on end-of-day and on pre-market data:
 1. **Monitor (descriptive).** Every weekday after the U.S. close, a GitHub Action downloads
    prices, computes indicators, scores each stock from 0 to 100 and publishes badges and a
    dashboard. Any U.S.-listed stock or ETF works; edit `TICKERS` in `monitor/config.py`
-   (default: ALAB, AMD, NVDA, MRVL, GOOG, AMZN, IBM, FSLR, SKHY, ETN, TSLA, SPCX).
+   (default: ALAB, AMD, NVDA, MRVL, GOOG, AMZN, IBM, FSLR, SKHY, ETN, GEV, CEG, VST, TSLA, SPCX).
    A second action runs at about 08:55 ET, before the open, and scores the pre-market session
    (from 04:00 ET) using bars through 08:30 ET.
 2. **Evaluation (inferential).** Every week, the same scoring rules are replayed over history
@@ -219,8 +223,8 @@ evaluation, and `--source synthetic` to try everything without a network connect
 
 ## Limitations
 
-- The default universe is twelve stocks, most of them exposed to AI infrastructure (chips, memory,
-  cloud, enterprise software, data-centre power, solar), so they tend to move together and results may not generalise.
+- The default universe is fifteen stocks, most of them exposed to AI infrastructure (chips, memory,
+  cloud, enterprise software, data-centre power, power generation, solar), so they tend to move together and results may not generalise.
   Adding names from other sectors (banks, healthcare, consumer) is the most direct way to test that.
 - SPCX and SKHY only listed in mid-2026, so they contribute few observations to the evaluation
   and have no 200-day trend input yet (see *coverage* above).

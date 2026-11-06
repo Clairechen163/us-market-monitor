@@ -18,6 +18,9 @@ TICKERS: list[str] = [
     "FSLR",  # First Solar: solar modules
     "SKHY",  # SK hynix ADR: memory / HBM (Nasdaq from Jul 2026)
     "ETN",   # Eaton: power management, data-centre electrical
+    "GEV",   # GE Vernova: gas turbines, grid equipment, wind (NYSE from Apr 2024)
+    "CEG",   # Constellation Energy: largest U.S. nuclear fleet (Nasdaq from Feb 2022)
+    "VST",   # Vistra: power generation and retail electricity
     "TSLA",  # Tesla: EVs, energy storage
     "SPCX",  # SpaceX: launch, Starlink, xAI (Nasdaq from Jun 2026)
 ]
@@ -28,6 +31,8 @@ TICKERS: list[str] = [
 LISTING_DATES: dict[str, str] = {
     "SPCX": "2026-06-12",
     "SKHY": "2026-07-10",  # traded as SKHYV (when-issued) until 2026-07-13
+    "GEV": "2024-04-02",   # spun off from GE; traded as "GEV WI" from 2024-03-27
+    "CEG": "2022-02-02",   # spun off from Exelon; CEG was Constellation Energy Group's symbol until 2012
 }
 
 # Relative strength is measured against this ETF (S&P 500).
