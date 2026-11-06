@@ -14,6 +14,7 @@ TICKERS: list[str] = [
     "MRVL",  # Marvell: custom silicon, networking
     "GOOG",  # Alphabet: cloud, search, TPUs
     "AMZN",  # Amazon: AWS cloud, e-commerce, Trainium chips
+    "IBM",   # IBM: hybrid cloud, consulting, enterprise AI, quantum
     "FSLR",  # First Solar: solar modules
     "SKHY",  # SK hynix ADR: memory / HBM (Nasdaq from Jul 2026)
     "ETN",   # Eaton: power management, data-centre electrical
