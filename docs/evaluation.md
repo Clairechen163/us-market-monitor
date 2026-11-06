@@ -64,7 +64,7 @@ By ticker:
 | ALAB | 637 | +0.110 | 2024-04-18 |
 | AMD | 1,230 | +0.032 | 2021-12-07 |
 | AMZN | 1,230 | -0.101 | 2021-12-07 |
-| CEG | 1,171 | +0.013 | 2022-03-03 |
+| CEG | 1,171 | +0.012 | 2022-03-03 |
 | ETN | 1,230 | -0.044 | 2021-12-07 |
 | FSLR | 1,230 | -0.050 | 2021-12-07 |
 | GEV | 629 | -0.011 | 2024-04-30 |
@@ -73,7 +73,7 @@ By ticker:
 | MRVL | 1,230 | -0.038 | 2021-12-07 |
 | NVDA | 1,230 | -0.028 | 2021-12-07 |
 | SKHY | 60 | -0.287 | 2026-08-07 |
-| SPCX | 78 | +0.056 | 2026-07-14 |
+| SPCX | 78 | +0.058 | 2026-07-14 |
 | TSLA | 1,230 | +0.031 | 2021-12-07 |
 | VST | 1,230 | +0.025 | 2021-12-07 |
 
@@ -113,7 +113,7 @@ Out-of-sample period: 2022-12-07 onward, 12,162 ticker-days.
 
 | Model | AUC (target: beats SPY) | Spearman IC |
 |---|---:|---:|
-| Hand-weighted score | 0.497 | -0.009 |
+| Hand-weighted score | 0.497 | -0.008 |
 | Walk-forward logistic regression | 0.505 | -0.008 |
 
 Learning the weights from data does not beat the hand-chosen weights out of sample. With this little data, the simpler fixed-weight model is preferable.

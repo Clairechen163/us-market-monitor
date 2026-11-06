@@ -27,7 +27,7 @@
 - **End-of-day signal: no evidence of predictive power.** The rank IC between the score and the next 5 days' return over SPY is +0.001 (95% CI -0.042 to +0.039) across 14,875 stock-days; a randomly shuffled score gets +0.000.
 <!-- FINDINGS-EOD:END -->
 <!-- FINDINGS-PM:START -->
-- **Pre-market signal: no evidence of predictive power.** The rank IC between the 08:30 ET pre-market score and the same day's open-to-close return over SPY is -0.019 (95% CI -0.052 to +0.010) across 7,999 stock-days; a randomly shuffled score gets +0.013. On their own, the pre-market gap has an IC of -0.006 (negative would mean gaps fade).
+- **Pre-market signal: no evidence of predictive power.** The rank IC between the 08:30 ET pre-market score and the same day's open-to-close return over SPY is -0.022 (95% CI -0.051 to +0.002) across 9,350 stock-days; a randomly shuffled score gets -0.013. On their own, the pre-market gap has an IC of -0.015 (negative would mean gaps fade) and pre-market volume +0.007.
 <!-- FINDINGS-PM:END -->
 - **How it was tested:** a common trading belief, that moves confirmed by volume keep going, is
   turned into a transparent score and tested on end-of-day and pre-market data with
@@ -85,13 +85,13 @@ Full write-up: [docs/evaluation.md](docs/evaluation.md)
 ### Pre-market score → same-day open-to-close
 
 <!-- PREMARKET-EVAL:START -->
-*Last evaluated 2026-11-06 on 7,999 ticker-days (2023-12-27 to 2026-11-06), pre-market bars through 08:30 ET, data: yahoo.*
+*Last evaluated 2026-11-06 on 9,350 ticker-days (2023-11-07 to 2026-11-05), pre-market bars through 08:30 ET, data: alpaca-sip.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
-| Rank IC: pre-market score vs open-to-close return over SPY | -0.019 | [-0.052, +0.010] |
-| Mean return gap: POSITIVE-or-better minus WEAK | -0.05% | [-0.23%, +0.12%] |
-| Rank IC: gap vs SPY alone (negative = gaps fade) | -0.006 | |
+| Rank IC: pre-market score vs open-to-close return over SPY | -0.022 | [-0.051, +0.002] |
+| Mean return gap: POSITIVE-or-better minus WEAK | +0.05% | [-0.16%, +0.26%] |
+| Rank IC: gap vs SPY alone (negative = gaps fade) | -0.015 | |
 
 The 95% interval includes zero, so the data do not show that the pre-market score predicts the regular session. It describes the pre-market well; it is not a forecast.
 
