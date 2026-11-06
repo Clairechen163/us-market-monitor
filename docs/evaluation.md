@@ -6,14 +6,14 @@ performance relative to the S&P 500 over the next 5 trading days?**
 
 ## Summary
 
-*Last evaluated 2026-11-06 on 10,604 ticker-days (2021-12-07 to 2026-10-29), 5-day horizon, data: yahoo.*
+*Last evaluated 2026-11-06 on 11,833 ticker-days (2021-12-07 to 2026-10-29), 5-day horizon, data: yahoo.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
-| Rank IC: score vs forward return over SPY | -0.008 | [-0.059, +0.037] |
-| Rank IC, non-overlapping windows only | -0.018 | |
-| Mean return gap: POSITIVE-or-better minus WEAK | +0.31% | [-0.47%, +0.96%] |
-| Out-of-sample AUC: hand weights vs learned weights | 0.487 vs 0.493 | |
+| Rank IC: score vs forward return over SPY | -0.006 | [-0.053, +0.040] |
+| Rank IC, non-overlapping windows only | -0.020 | |
+| Mean return gap: POSITIVE-or-better minus WEAK | +0.29% | [-0.41%, +0.88%] |
+| Out-of-sample AUC: hand weights vs learned weights | 0.491 vs 0.492 | |
 
 The 95% interval for the IC includes zero, so the data do not support a claim that the score predicts forward relative returns. That is a legitimate finding: the score is useful as a description of today's move, not as a forecast.
 
@@ -21,8 +21,8 @@ The 95% interval for the IC includes zero, so the data do not support a claim th
 
 ## Setup
 
-- **Universe:** ALAB, AMD, AMZN, ETN, FSLR, GOOG, MRVL, NVDA, SKHY, SPCX, TSLA; benchmark SPY.
-- **Sample:** 1,229 trading days, 10,604 ticker-days with a full score.
+- **Universe:** ALAB, AMD, AMZN, ETN, FSLR, GOOG, IBM, MRVL, NVDA, SKHY, SPCX, TSLA; benchmark SPY.
+- **Sample:** 1,229 trading days, 11,833 ticker-days with a full score.
   Rows labelled *INSUFFICIENT DATA* (too little history, e.g. right after an IPO) are excluded.
 - **Target:** 5-day forward return minus SPY's forward return over the same days.
 - **No look-ahead:** every indicator at day *t* uses data through the close of *t* only;
@@ -37,10 +37,10 @@ The 95% interval for the IC includes zero, so the data do not support a claim th
 
 | label | n | mean | ci_lo | ci_hi | median | hit_rate |
 |---|---:|---:|---:|---:|---:|---:|
-| STRONG PRICE/VOLUME | 829 | +0.81% | -0.03% | +1.85% | +0.22% | 52.1% |
-| POSITIVE | 2,112 | +0.47% | -0.10% | +1.05% | -0.05% | 49.5% |
-| WATCH | 2,141 | +0.46% | -0.05% | +1.18% | +0.22% | 51.5% |
-| WEAK | 5,522 | +0.25% | -0.20% | +0.82% | +0.10% | 51.1% |
+| STRONG PRICE/VOLUME | 925 | +0.75% | -0.03% | +1.72% | +0.25% | 52.4% |
+| POSITIVE | 2,427 | +0.48% | +0.03% | +0.98% | +0.07% | 50.8% |
+| WATCH | 2,410 | +0.36% | -0.11% | +0.99% | +0.09% | 50.8% |
+| WEAK | 6,071 | +0.26% | -0.14% | +0.72% | +0.09% | 51.0% |
 
 ## Stability
 
@@ -50,12 +50,12 @@ The full-sample IC can hide periods where the relationship flips sign.
 
 | year | n | ic |
 |---|---:|---:|
-| 2021 | 144 | -0.003 |
-| 2022 | 2,008 | -0.022 |
-| 2023 | 2,000 | -0.121 |
-| 2024 | 2,194 | +0.038 |
-| 2025 | 2,250 | -0.019 |
-| 2026 | 2,008 | -0.049 |
+| 2021 | 162 | +0.146 |
+| 2022 | 2,259 | -0.001 |
+| 2023 | 2,250 | -0.102 |
+| 2024 | 2,446 | +0.045 |
+| 2025 | 2,500 | -0.015 |
+| 2026 | 2,216 | -0.059 |
 
 By ticker:
 
@@ -67,6 +67,7 @@ By ticker:
 | ETN | 1,229 | -0.046 | 2021-12-07 |
 | FSLR | 1,229 | -0.049 | 2021-12-07 |
 | GOOG | 1,229 | -0.001 | 2021-12-07 |
+| IBM | 1,229 | +0.029 | 2021-12-07 |
 | MRVL | 1,229 | -0.039 | 2021-12-07 |
 | NVDA | 1,229 | -0.030 | 2021-12-07 |
 | SKHY | 59 | -0.314 | 2026-08-07 |
@@ -82,19 +83,19 @@ re-scores the full history with one component removed and the rest re-weighted t
 
 | signal | ic |
 |---|---:|
-| Composite score (this model) | -0.008 |
-| 20-day return only (momentum) | +0.007 |
-| 20-day return vs SPY only | +0.009 |
-| RVOL20 only | +0.016 |
-| Shuffled score (null) | +0.002 |
+| Composite score (this model) | -0.006 |
+| 20-day return only (momentum) | +0.005 |
+| 20-day return vs SPY only | +0.006 |
+| RVOL20 only | +0.013 |
+| Shuffled score (null) | -0.005 |
 
 | removed | ic | change |
 |---|---:|---:|
-| trend | -0.006 | +0.002 |
-| volume | -0.006 | +0.002 |
-| breakout | -0.012 | -0.004 |
-| momentum | -0.005 | +0.003 |
-| relative_strength | -0.008 | -0.000 |
+| trend | -0.003 | +0.003 |
+| volume | -0.004 | +0.002 |
+| breakout | -0.011 | -0.005 |
+| momentum | -0.004 | +0.002 |
+| relative_strength | -0.006 | -0.000 |
 
 A negative *change* means removing the component hurts, i.e. it was contributing.
 
@@ -105,18 +106,18 @@ differently, a logistic regression on the five component scores is refit every q
 expanding window and used only to score later dates. A 5-day gap separates
 each training cut-off from the test period so overlapping targets cannot leak.
 
-Out-of-sample period: 2022-12-07 onward, 8,588 ticker-days.
+Out-of-sample period: 2022-12-07 onward, 9,565 ticker-days.
 
 | Model | AUC (target: beats SPY) | Spearman IC |
 |---|---:|---:|
-| Hand-weighted score | 0.487 | -0.020 |
-| Walk-forward logistic regression | 0.493 | -0.031 |
+| Hand-weighted score | 0.491 | -0.017 |
+| Walk-forward logistic regression | 0.492 | -0.031 |
 
 Learning the weights from data does not beat the hand-chosen weights out of sample. With this little data, the simpler fixed-weight model is preferable.
 
 ## Limitations
 
-- 11 stocks is a small, concentrated, highly correlated universe. Results may not
+- 12 stocks is a small, concentrated, highly correlated universe. Results may not
   generalise to other sectors or periods. Recent listings contribute only a few months of data.
 - Several baselines, ablations and a model are compared on the same data. Treat any single
   small difference as noise unless it holds up out of sample.
