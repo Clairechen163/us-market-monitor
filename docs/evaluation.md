@@ -6,7 +6,7 @@ performance relative to the S&P 500 over the next 5 trading days?**
 
 ## Summary
 
-*Last evaluated 2026-11-06 on 14,875 ticker-days (2021-12-07 to 2026-10-30), 5-day horizon, data: yahoo.*
+*Last evaluated 2026-11-07 on 14,875 ticker-days (2021-12-07 to 2026-10-30), 5-day horizon, data: yahoo.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
@@ -40,7 +40,7 @@ The 95% interval for the IC includes zero, so the data do not support a claim th
 | STRONG PRICE/VOLUME | 1,226 | +0.84% | +0.10% | +1.64% | +0.45% | 54.0% |
 | POSITIVE | 3,128 | +0.65% | +0.21% | +1.11% | +0.25% | 52.5% |
 | WATCH | 3,142 | +0.35% | -0.08% | +0.83% | +0.13% | 51.1% |
-| WEAK | 7,379 | +0.33% | -0.05% | +0.81% | +0.13% | 51.3% |
+| WEAK | 7,379 | +0.34% | -0.05% | +0.81% | +0.13% | 51.3% |
 
 ## Stability
 
@@ -61,7 +61,7 @@ By ticker:
 
 | ticker | n | ic | first_date |
 |---|---:|---:|---:|
-| ALAB | 637 | +0.110 | 2024-04-18 |
+| ALAB | 637 | +0.109 | 2024-04-18 |
 | AMD | 1,230 | +0.032 | 2021-12-07 |
 | AMZN | 1,230 | -0.101 | 2021-12-07 |
 | CEG | 1,171 | +0.012 | 2022-03-03 |
@@ -72,10 +72,10 @@ By ticker:
 | IBM | 1,230 | +0.027 | 2021-12-07 |
 | MRVL | 1,230 | -0.038 | 2021-12-07 |
 | NVDA | 1,230 | -0.028 | 2021-12-07 |
-| SKHY | 60 | -0.287 | 2026-08-07 |
-| SPCX | 78 | +0.058 | 2026-07-14 |
+| SKHY | 60 | -0.289 | 2026-08-07 |
+| SPCX | 78 | +0.044 | 2026-07-14 |
 | TSLA | 1,230 | +0.031 | 2021-12-07 |
-| VST | 1,230 | +0.025 | 2021-12-07 |
+| VST | 1,230 | +0.024 | 2021-12-07 |
 
 ## Baselines and ablation
 
@@ -88,7 +88,7 @@ re-scores the full history with one component removed and the rest re-weighted t
 |---|---:|
 | Composite score (this model) | +0.001 |
 | 20-day return only (momentum) | +0.012 |
-| 20-day return vs SPY only | +0.017 |
+| 20-day return vs SPY only | +0.016 |
 | RVOL20 only | +0.030 |
 | Shuffled score (null) | +0.000 |
 
@@ -113,7 +113,7 @@ Out-of-sample period: 2022-12-07 onward, 12,162 ticker-days.
 
 | Model | AUC (target: beats SPY) | Spearman IC |
 |---|---:|---:|
-| Hand-weighted score | 0.497 | -0.008 |
+| Hand-weighted score | 0.497 | -0.009 |
 | Walk-forward logistic regression | 0.505 | -0.008 |
 
 Learning the weights from data does not beat the hand-chosen weights out of sample. With this little data, the simpler fixed-weight model is preferable.
