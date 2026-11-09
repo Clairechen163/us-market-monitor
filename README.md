@@ -27,7 +27,7 @@
 - **End-of-day signal: no evidence of predictive power.** The rank IC between the score and the next 5 days' return over SPY is +0.001 (95% CI -0.042 to +0.039) across 14,875 stock-days; a randomly shuffled score gets +0.000.
 <!-- FINDINGS-EOD:END -->
 <!-- FINDINGS-PM:START -->
-- **Pre-market signal: no evidence of predictive power.** The rank IC between the 08:30 ET pre-market score and the same day's open-to-close return over SPY is -0.022 (95% CI -0.052 to +0.002) across 9,356 stock-days; a randomly shuffled score gets -0.002. On their own, the pre-market gap has an IC of -0.016 (negative would mean gaps fade) and pre-market volume +0.007.
+- **Pre-market signal: no evidence of predictive power.** The rank IC between the 08:30 ET pre-market score and the same day's open-to-close return over SPY is -0.023 (95% CI -0.051 to +0.002) across 9,338 stock-days; a randomly shuffled score gets +0.000. On their own, the pre-market gap has an IC of -0.016 (negative would mean gaps fade) and pre-market volume +0.007.
 <!-- FINDINGS-PM:END -->
 - **How it was tested:** a common trading belief, that moves confirmed by volume keep going, is
   turned into a transparent score and tested on end-of-day and pre-market data with
@@ -68,7 +68,7 @@ The project has two halves, each run on end-of-day and on pre-market data:
 ### End-of-day score → next 5 days
 
 <!-- EVAL:START -->
-*Last evaluated 2026-11-07 on 14,875 ticker-days (2021-12-07 to 2026-10-30), 5-day horizon, data: yahoo.*
+*Last evaluated 2026-11-09 on 14,875 ticker-days (2021-12-07 to 2026-10-30), 5-day horizon, data: yahoo.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
@@ -85,12 +85,12 @@ Full write-up: [docs/evaluation.md](docs/evaluation.md)
 ### Pre-market score → same-day open-to-close
 
 <!-- PREMARKET-EVAL:START -->
-*Last evaluated 2026-11-07 on 9,356 ticker-days (2023-11-08 to 2026-11-06), pre-market bars through 08:30 ET, data: alpaca-sip.*
+*Last evaluated 2026-11-09 on 9,338 ticker-days (2023-11-10 to 2026-11-06), pre-market bars through 08:30 ET, data: alpaca-sip.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
-| Rank IC: pre-market score vs open-to-close return over SPY | -0.022 | [-0.052, +0.002] |
-| Mean return gap: POSITIVE-or-better minus WEAK | +0.04% | [-0.17%, +0.25%] |
+| Rank IC: pre-market score vs open-to-close return over SPY | -0.023 | [-0.051, +0.002] |
+| Mean return gap: POSITIVE-or-better minus WEAK | +0.03% | [-0.16%, +0.24%] |
 | Rank IC: gap vs SPY alone (negative = gaps fade) | -0.016 | |
 
 The 95% interval includes zero, so the data do not show that the pre-market score predicts the regular session. It describes the pre-market well; it is not a forecast.

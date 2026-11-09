@@ -6,7 +6,7 @@ performance relative to the S&P 500 over the next 5 trading days?**
 
 ## Summary
 
-*Last evaluated 2026-11-07 on 14,875 ticker-days (2021-12-07 to 2026-10-30), 5-day horizon, data: yahoo.*
+*Last evaluated 2026-11-09 on 14,875 ticker-days (2021-12-07 to 2026-10-30), 5-day horizon, data: yahoo.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
