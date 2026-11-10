@@ -12,15 +12,18 @@ TICKERS: list[str] = [
     "AMD",   # Advanced Micro Devices: CPUs / GPUs
     "NVDA",  # NVIDIA: GPUs
     "MRVL",  # Marvell: custom silicon, networking
+    "TSM",   # TSMC (NYSE ADR): contract chip manufacturing
     "GOOG",  # Alphabet: cloud, search, TPUs
     "AMZN",  # Amazon: AWS cloud, e-commerce, Trainium chips
     "IBM",   # IBM: hybrid cloud, consulting, enterprise AI, quantum
+    "DELL",  # Dell Technologies: AI servers, storage, PCs
     "FSLR",  # First Solar: solar modules
     "SKHY",  # SK hynix ADR: memory / HBM (Nasdaq from Jul 2026)
     "ETN",   # Eaton: power management, data-centre electrical
     "GEV",   # GE Vernova: gas turbines, grid equipment, wind (NYSE from Apr 2024)
     "CEG",   # Constellation Energy: largest U.S. nuclear fleet (Nasdaq from Feb 2022)
     "VST",   # Vistra: power generation and retail electricity
+    "BE",    # Bloom Energy: on-site fuel-cell power
     "TSLA",  # Tesla: EVs, energy storage
     "SPCX",  # SpaceX: launch, Starlink, xAI (Nasdaq from Jun 2026)
 ]
