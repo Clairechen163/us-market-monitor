@@ -24,10 +24,10 @@
 ## Key findings
 
 <!-- FINDINGS-EOD:START -->
-- **End-of-day signal: no evidence of predictive power.** The rank IC between the score and the next 5 days' return over SPY is +0.001 (95% CI -0.042 to +0.039) across 14,875 stock-days; a randomly shuffled score gets +0.000.
+- **End-of-day signal: no evidence of predictive power.** The rank IC between the score and the next 5 days' return over SPY is +0.002 (95% CI -0.042 to +0.034) across 18,557 stock-days; a randomly shuffled score gets +0.010.
 <!-- FINDINGS-EOD:END -->
 <!-- FINDINGS-PM:START -->
-- **Pre-market signal: no evidence of predictive power.** The rank IC between the 08:30 ET pre-market score and the same day's open-to-close return over SPY is -0.023 (95% CI -0.051 to +0.002) across 9,338 stock-days; a randomly shuffled score gets +0.000. On their own, the pre-market gap has an IC of -0.016 (negative would mean gaps fade) and pre-market volume +0.007.
+- **Pre-market signal: a small but statistically reliable negative association (strong readings were followed by underperformance).** The rank IC between the 08:30 ET pre-market score and the same day's open-to-close return over SPY is -0.029 (95% CI -0.056 to -0.005) across 11,587 stock-days; a randomly shuffled score gets -0.006. On their own, the pre-market gap has an IC of -0.010 (negative would mean gaps fade) and pre-market volume +0.001.
 <!-- FINDINGS-PM:END -->
 - **How it was tested:** a common trading belief, that moves confirmed by volume keep going, is
   turned into a transparent score and tested on end-of-day and pre-market data with
@@ -68,14 +68,14 @@ The project has two halves, each run on end-of-day and on pre-market data:
 ### End-of-day score → next 5 days
 
 <!-- EVAL:START -->
-*Last evaluated 2026-11-09 on 14,875 ticker-days (2021-12-07 to 2026-10-30), 5-day horizon, data: yahoo.*
+*Last evaluated 2026-11-10 on 18,557 ticker-days (2021-12-09 to 2026-11-02), 5-day horizon, data: yahoo.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
-| Rank IC: score vs forward return over SPY | +0.001 | [-0.042, +0.039] |
-| Rank IC, non-overlapping windows only | -0.007 | |
-| Mean return gap: POSITIVE-or-better minus WEAK | +0.37% | [-0.25%, +0.85%] |
-| Out-of-sample AUC: hand weights vs learned weights | 0.497 vs 0.505 | |
+| Rank IC: score vs forward return over SPY | +0.002 | [-0.042, +0.034] |
+| Rank IC, non-overlapping windows only | -0.004 | |
+| Mean return gap: POSITIVE-or-better minus WEAK | +0.43% | [-0.22%, +0.90%] |
+| Out-of-sample AUC: hand weights vs learned weights | 0.495 vs 0.499 | |
 
 The 95% interval for the IC includes zero, so the data do not support a claim that the score predicts forward relative returns. That is a legitimate finding: the score is useful as a description of today's move, not as a forecast.
 
@@ -85,15 +85,15 @@ Full write-up: [docs/evaluation.md](docs/evaluation.md)
 ### Pre-market score → same-day open-to-close
 
 <!-- PREMARKET-EVAL:START -->
-*Last evaluated 2026-11-09 on 9,338 ticker-days (2023-11-10 to 2026-11-06), pre-market bars through 08:30 ET, data: alpaca-sip.*
+*Last evaluated 2026-11-10 on 11,587 ticker-days (2023-11-13 to 2026-11-09), pre-market bars through 08:30 ET, data: alpaca-sip.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
-| Rank IC: pre-market score vs open-to-close return over SPY | -0.023 | [-0.051, +0.002] |
-| Mean return gap: POSITIVE-or-better minus WEAK | +0.03% | [-0.16%, +0.24%] |
-| Rank IC: gap vs SPY alone (negative = gaps fade) | -0.016 | |
+| Rank IC: pre-market score vs open-to-close return over SPY | -0.029 | [-0.056, -0.005] |
+| Mean return gap: POSITIVE-or-better minus WEAK | +0.00% | [-0.17%, +0.20%] |
+| Rank IC: gap vs SPY alone (negative = gaps fade) | -0.010 | |
 
-The 95% interval includes zero, so the data do not show that the pre-market score predicts the regular session. It describes the pre-market well; it is not a forecast.
+The 95% interval is entirely below zero: strong pre-market setups have tended to *underperform* SPY after the open, consistent with gaps fading during the session.
 
 Full write-up: [docs/premarket_evaluation.md](docs/premarket_evaluation.md)
 <!-- PREMARKET-EVAL:END -->
