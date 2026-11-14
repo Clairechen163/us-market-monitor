@@ -24,10 +24,10 @@
 ## Key findings
 
 <!-- FINDINGS-EOD:START -->
-- **End-of-day signal: no evidence of predictive power.** The rank IC between the score and the next 5 days' return over SPY is +0.002 (95% CI -0.042 to +0.034) across 18,557 stock-days; a randomly shuffled score gets +0.010.
+- **End-of-day signal: no evidence of predictive power.** The rank IC between the score and the next 5 days' return over SPY is -0.002 (95% CI -0.041 to +0.035) across 18,590 stock-days; a randomly shuffled score gets +0.005.
 <!-- FINDINGS-EOD:END -->
 <!-- FINDINGS-PM:START -->
-- **Pre-market signal: a small but statistically reliable negative association (strong readings were followed by underperformance).** The rank IC between the 08:30 ET pre-market score and the same day's open-to-close return over SPY is -0.029 (95% CI -0.056 to -0.005) across 11,587 stock-days; a randomly shuffled score gets -0.006. On their own, the pre-market gap has an IC of -0.010 (negative would mean gaps fade) and pre-market volume +0.001.
+- **Pre-market signal: a small but statistically reliable negative association (strong readings were followed by underperformance).** The rank IC between the 08:30 ET pre-market score and the same day's open-to-close return over SPY is -0.030 (95% CI -0.055 to -0.002) across 11,634 stock-days; a randomly shuffled score gets -0.005. On their own, the pre-market gap has an IC of -0.013 (negative would mean gaps fade) and pre-market volume +0.002.
 <!-- FINDINGS-PM:END -->
 - **How it was tested:** a common trading belief, that moves confirmed by volume keep going, is
   turned into a transparent score and tested on end-of-day and pre-market data with
@@ -68,14 +68,14 @@ The project has two halves, each run on end-of-day and on pre-market data:
 ### End-of-day score → next 5 days
 
 <!-- EVAL:START -->
-*Last evaluated 2026-11-10 on 18,557 ticker-days (2021-12-09 to 2026-11-02), 5-day horizon, data: yahoo.*
+*Last evaluated 2026-11-14 on 18,590 ticker-days (2021-12-14 to 2026-11-06), 5-day horizon, data: yahoo.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
-| Rank IC: score vs forward return over SPY | +0.002 | [-0.042, +0.034] |
-| Rank IC, non-overlapping windows only | -0.004 | |
-| Mean return gap: POSITIVE-or-better minus WEAK | +0.43% | [-0.22%, +0.90%] |
-| Out-of-sample AUC: hand weights vs learned weights | 0.495 vs 0.499 | |
+| Rank IC: score vs forward return over SPY | -0.002 | [-0.041, +0.035] |
+| Rank IC, non-overlapping windows only | -0.002 | |
+| Mean return gap: POSITIVE-or-better minus WEAK | +0.39% | [-0.22%, +0.91%] |
+| Out-of-sample AUC: hand weights vs learned weights | 0.493 vs 0.499 | |
 
 The 95% interval for the IC includes zero, so the data do not support a claim that the score predicts forward relative returns. That is a legitimate finding: the score is useful as a description of today's move, not as a forecast.
 
@@ -85,13 +85,13 @@ Full write-up: [docs/evaluation.md](docs/evaluation.md)
 ### Pre-market score → same-day open-to-close
 
 <!-- PREMARKET-EVAL:START -->
-*Last evaluated 2026-11-10 on 11,587 ticker-days (2023-11-13 to 2026-11-09), pre-market bars through 08:30 ET, data: alpaca-sip.*
+*Last evaluated 2026-11-14 on 11,634 ticker-days (2023-11-15 to 2026-11-13), pre-market bars through 08:30 ET, data: alpaca-sip.*
 
 | Metric | Estimate | 95% CI |
 |---|---:|---:|
-| Rank IC: pre-market score vs open-to-close return over SPY | -0.029 | [-0.056, -0.005] |
-| Mean return gap: POSITIVE-or-better minus WEAK | +0.00% | [-0.17%, +0.20%] |
-| Rank IC: gap vs SPY alone (negative = gaps fade) | -0.010 | |
+| Rank IC: pre-market score vs open-to-close return over SPY | -0.030 | [-0.055, -0.002] |
+| Mean return gap: POSITIVE-or-better minus WEAK | +0.00% | [-0.16%, +0.20%] |
+| Rank IC: gap vs SPY alone (negative = gaps fade) | -0.013 | |
 
 The 95% interval is entirely below zero: strong pre-market setups have tended to *underperform* SPY after the open, consistent with gaps fading during the session.
 
