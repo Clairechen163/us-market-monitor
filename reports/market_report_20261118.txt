@@ -1,0 +1,93 @@
+US MARKET MONITOR
+Session: 2026-11-18   Data source: yahoo
+Signals describe price/volume alignment. They are not buy/sell recommendations.
+
+AMZN   score  67.7  [POSITIVE]  (coverage 100%)
+   close 267.74  1d +3.8%  5d +0.6%  20d +2.0%  5d vs SPY +4.5%
+   RVOL20 0.82  RSI14 57.2  ATR14 +3.4%  vs prior 20d high -2.8%
+   components: trend 25.0/25  volume 6.5/25  breakout 9.6/20  momentum 13.1/15  relative_strength 13.6/15
+
+TSLA   score  52.8  [WATCH]  (coverage 100%)
+   close 383.72  1d +0.9%  5d -1.8%  20d -0.7%  5d vs SPY +2.1%
+   RVOL20 0.69  RSI14 51.1  ATR14 +4.1%  vs prior 20d high -7.4%
+   components: trend 25.0/25  volume 3.9/25  breakout 3.2/20  momentum 9.8/15  relative_strength 10.9/15
+
+AMD    score  42.7  [WEAK]  (coverage 100%)
+   close 530.14  1d +5.3%  5d -4.1%  20d -4.1%  5d vs SPY -0.2%
+   RVOL20 0.92  RSI14 50.3  ATR14 +7.6%  vs prior 20d high -10.8%
+   components: trend 17.0/25  volume 8.4/25  breakout 0.0/20  momentum 9.3/15  relative_strength 8.0/15
+
+SPCX   score  34.2  [WEAK]  (coverage 91%)
+   close 143.50  1d +1.3%  5d +2.7%  20d -9.9%  5d vs SPY +6.6%
+   RVOL20 0.75  RSI14 50.7  ATR14 +5.2%  vs prior 20d high -13.6%
+   components: trend 8.0/25  volume 5.1/25  breakout 0.0/20  momentum 9.5/15  relative_strength 8.5/15
+
+CEG    score  19.5  [WEAK]  (coverage 100%)
+   close 262.74  1d -2.0%  5d -4.2%  20d -2.8%  5d vs SPY -0.3%
+   RVOL20 0.66  RSI14 47.8  ATR14 +4.8%  vs prior 20d high -7.7%
+   components: trend 0.0/25  volume 0.8/25  breakout 2.8/20  momentum 7.3/15  relative_strength 8.5/15
+
+IBM    score  16.0  [WEAK]  (coverage 100%)
+   close 228.53  1d -1.1%  5d -7.9%  20d -8.5%  5d vs SPY -4.0%
+   RVOL20 0.87  RSI14 36.6  ATR14 +2.9%  vs prior 20d high -11.5%
+   components: trend 8.0/25  volume 1.9/25  breakout 0.0/20  momentum 2.3/15  relative_strength 3.8/15
+
+ALAB   score  13.2  [WEAK]  (coverage 100%)
+   close 216.75  1d +2.4%  5d -6.1%  20d -25.3%  5d vs SPY -2.2%
+   RVOL20 0.89  RSI14 40.7  ATR14 +10.6%  vs prior 20d high -27.9%
+   components: trend 0.0/25  volume 7.8/25  breakout 0.0/20  momentum 3.7/15  relative_strength 1.7/15
+
+ETN    score  11.2  [WEAK]  (coverage 100%)
+   close 338.34  1d +0.4%  5d -6.2%  20d -13.9%  5d vs SPY -2.3%
+   RVOL20 0.79  RSI14 38.4  ATR14 +5.2%  vs prior 20d high -15.0%
+   components: trend 0.0/25  volume 5.9/25  breakout 0.0/20  momentum 2.9/15  relative_strength 2.4/15
+
+GOOG   score   9.9  [WEAK]  (coverage 100%)
+   close 279.20  1d +0.6%  5d -3.9%  20d -15.6%  5d vs SPY -0.0%
+   RVOL20 0.79  RSI14 33.4  ATR14 +3.4%  vs prior 20d high -16.4%
+   components: trend 0.0/25  volume 5.8/25  breakout 0.0/20  momentum 1.2/15  relative_strength 3.0/15
+
+TSM    score   7.9  [WEAK]  (coverage 100%)
+   close 362.62  1d +0.8%  5d -12.3%  20d -16.0%  5d vs SPY -8.4%
+   RVOL20 0.78  RSI14 36.8  ATR14 +4.8%  vs prior 20d high -17.8%
+   components: trend 0.0/25  volume 5.5/25  breakout 0.0/20  momentum 2.4/15  relative_strength 0.0/15
+
+GEV    score   6.9  [WEAK]  (coverage 100%)
+   close 772.22  1d -1.0%  5d -4.5%  20d -16.6%  5d vs SPY -0.6%
+   RVOL20 0.70  RSI14 39.2  ATR14 +6.9%  vs prior 20d high -17.4%
+   components: trend 0.0/25  volume 1.0/25  breakout 0.0/20  momentum 3.2/15  relative_strength 2.7/15
+
+VST    score   5.7  [WEAK]  (coverage 100%)
+   close 125.58  1d -1.2%  5d -5.9%  20d -19.6%  5d vs SPY -2.0%
+   RVOL20 0.51  RSI14 41.0  ATR14 +5.9%  vs prior 20d high -20.9%
+   components: trend 0.0/25  volume 0.0/25  breakout 0.0/20  momentum 3.9/15  relative_strength 1.8/15
+
+NVDA   score   4.3  [WEAK]  (coverage 100%)
+   close 150.96  1d -2.9%  5d -13.1%  20d -32.0%  5d vs SPY -9.2%
+   RVOL20 1.46  RSI14 21.1  ATR14 +6.4%  vs prior 20d high -32.1%
+   components: trend 0.0/25  volume 4.3/25  breakout 0.0/20  momentum 0.0/15  relative_strength 0.0/15
+
+SKHY   score   3.6  [WEAK]  (coverage 91%)
+   close 122.47  1d -0.1%  5d -13.9%  20d -14.5%  5d vs SPY -10.0%
+   RVOL20 0.51  RSI14 37.8  ATR14 +7.8%  vs prior 20d high -26.2%
+   components: trend 0.0/25  volume 0.1/25  breakout 0.0/20  momentum 2.7/15  relative_strength 0.5/15
+
+BE     score   3.6  [WEAK]  (coverage 100%)
+   close 170.98  1d -1.4%  5d -18.4%  20d -28.3%  5d vs SPY -14.5%
+   RVOL20 0.61  RSI14 38.7  ATR14 +12.1%  vs prior 20d high -29.2%
+   components: trend 0.0/25  volume 0.5/25  breakout 0.0/20  momentum 3.1/15  relative_strength 0.0/15
+
+DELL   score   2.8  [WEAK]  (coverage 100%)
+   close 313.11  1d -3.0%  5d -16.2%  20d -35.6%  5d vs SPY -12.3%
+   RVOL20 0.87  RSI14 32.6  ATR14 +10.6%  vs prior 20d high -38.3%
+   components: trend 0.0/25  volume 1.8/25  breakout 0.0/20  momentum 0.9/15  relative_strength 0.0/15
+
+FSLR   score   2.1  [WEAK]  (coverage 100%)
+   close 150.98  1d -1.3%  5d -15.2%  20d -13.6%  5d vs SPY -11.3%
+   RVOL20 0.75  RSI14 29.8  ATR14 +6.5%  vs prior 20d high -29.7%
+   components: trend 0.0/25  volume 1.2/25  breakout 0.0/20  momentum 0.0/15  relative_strength 0.9/15
+
+MRVL   score   1.8  [WEAK]  (coverage 100%)
+   close 145.54  1d -2.2%  5d -13.8%  20d -40.5%  5d vs SPY -9.9%
+   RVOL20 0.62  RSI14 33.4  ATR14 +10.9%  vs prior 20d high -42.6%
+   components: trend 0.0/25  volume 0.6/25  breakout 0.0/20  momentum 1.2/15  relative_strength 0.0/15
